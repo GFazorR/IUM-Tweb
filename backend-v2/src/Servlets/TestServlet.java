@@ -1,6 +1,6 @@
 package Servlets;
 
-import Dao.Dao;
+import Dao.UserDao;
 import Dao.DbManager;
 import Model.User;
 import com.google.gson.Gson;
@@ -34,7 +34,7 @@ public class TestServlet extends HttpServlet {
             out = response.getWriter();
             DbManager.registerDriver();
             String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyMSIsImp0aSI6IjIiLCJpYXQiOjE2MDA3MjM5MDZ9.BEu5NytU4lDK1MH1pc2BPRu_V6SpmujQrubYAXXOIm8";
-            User user = Dao.getUserFromToken(token);
+            User user = UserDao.getUserFromToken(token);
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             String output = new Gson().toJson(user);

@@ -1,7 +1,7 @@
 package Servlets;
 
-import Dao.Dao;
 import Dao.DbManager;
+import Dao.SubjectDao;
 import Model.Subject;
 import com.google.gson.Gson;
 
@@ -23,7 +23,7 @@ public class SubjectServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try (PrintWriter out = resp.getWriter()){
-            ArrayList<Subject> subjects = Dao.getAllSubjects();
+            ArrayList<Subject> subjects = SubjectDao.getAllSubjects();
             resp.setContentType("application/json");
             resp.setStatus(HttpServletResponse.SC_OK);
 

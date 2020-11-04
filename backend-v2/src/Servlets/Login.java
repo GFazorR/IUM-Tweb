@@ -1,7 +1,7 @@
 package Servlets;
 
 import Auth.Token;
-import Dao.Dao;
+import Dao.UserDao;
 import Dao.DbManager;
 import Exceptions.HttpException;
 import Model.User;
@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
+// TODO: 04/11/2020 add comments
+
 @WebServlet(name = "Login", urlPatterns = "/api/Login")
 public class Login extends HttpServlet {
     @Override
@@ -27,7 +30,8 @@ public class Login extends HttpServlet {
     // takes username and password from request, crates new token,
     // return as response username object to Json
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         resp.setContentType("application/json");
 
         String username = req.getParameter("username");
@@ -40,10 +44,10 @@ public class Login extends HttpServlet {
                     username.isEmpty() || password.isEmpty())
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
                         "Utente o Password non fornite");
-            User user = Dao.getUser(username,password);
+            User user = UserDao.getUser(username,password);
             String token = Token.generateToken("" + user.getId(), user.getUsername());
             user.setToken(token);
-            Dao.insertUserToken(user.getId(),user.getToken());
+            UserDao.insertUserToken(user.getId(),user.getToken());
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
             out.println(new Gson().toJson(user));
             out.flush();
