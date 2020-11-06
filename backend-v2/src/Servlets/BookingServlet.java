@@ -3,7 +3,9 @@ package Servlets;
 import Auth.Auth;
 import Dao.BookingDao;
 import Dao.DbManager;
+import Exceptions.HttpException;
 import Model.Booking;
+import Model.Flags;
 import Model.User;
 import com.google.gson.Gson;
 
@@ -59,5 +61,62 @@ public class BookingServlet extends HttpServlet {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         String subject = req.getParameter("subject");
+        String teacher = req.getParameter("teacher");
+        String date = req.getParameter("date");
+        PrintWriter out = resp.getWriter();
+        try {
+            User user = Auth.authUser(token);
+            if(subject == null || date == null || date == null)
+                throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
+                        "Subject, teacher or date not provided");
+            Booking booking = BookingDao.addBooking(Integer.parseInt(teacher),
+                    Integer.parseInt(subject), date, user.getId());
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            out.println(new Gson().toJson(booking));
+            out.flush();
+        } catch (SQLException | NamingException throwables) {
+            throw new ServletException(throwables);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        String token = req.getParameter("token");
+        String bookingId = req.getParameter("id");
+        try {
+            User user = Auth.authUser(token);
+            if (bookingId == null)
+                throw new HttpException(HttpServletResponse.SC_BAD_REQUEST, "Booking id Not Provided");
+            if (user.isAdmin()){
+                BookingDao.setBookingStatus(Integer.parseInt(bookingId), Flags.CANCELLED);
+                resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            }else {
+                BookingDao.setUserBookingStatus(Integer.parseInt(bookingId), user.getId(), Flags.CANCELLED);
+                resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            }
+        } catch (SQLException | NamingException throwables) {
+            throw new ServletException(throwables);
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        String token = req.getParameter("token");
+        String bookingId = req.getParameter("id");
+        PrintWriter out = resp.getWriter();
+
+        try {
+            User user = Auth.authUser(token);
+            if (bookingId == null)
+                throw new HttpException(HttpServletResponse.SC_BAD_REQUEST, "BookingId not provided");
+            Booking booking = BookingDao.setUserBookingStatus(Integer.parseInt(bookingId),user.getId(),Flags.CONFIRMED);
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            out.println(new Gson().toJson(booking));
+            out.flush();
+        } catch (SQLException | NamingException throwables) {
+            throw new ServletException(throwables);
+        }
     }
 }
