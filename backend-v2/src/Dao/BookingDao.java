@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class BookingDao {
-    // TODO: 14/10/2020 add Bookings Queries
     public static ArrayList<Booking> getTeacherBookedSlots(int teacherId) throws SQLException, NamingException {
         PreparedStatement statement = null;
         ResultSet set = null;
@@ -46,7 +45,6 @@ public class BookingDao {
         PreparedStatement statement = null;
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()){
-            // TODO: 05/11/2020 rivedere il db
             statement = conn.prepareStatement(
                     "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.date, pr.stato " +
                             "from ((prenotazione as pr  " +
@@ -99,7 +97,6 @@ public class BookingDao {
         }
     }
 
-    // TODO: 05/11/2020 create method add booking
     public static Booking addBooking(int teacherId, int subjectId, String date, int userId) throws SQLException, NamingException {
         PreparedStatement statement= null;
         ResultSet set = null;

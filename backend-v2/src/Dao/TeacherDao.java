@@ -9,8 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class TeacherDao {
-    // TODO: 14/10/2020 add Teachers Queries
-    // TODO: 15/10/2020 add Test getAllTeachers
     public static ArrayList<Teacher> getAllTeachers() throws SQLException, NamingException {
         PreparedStatement statement = null;
         ResultSet set = null;
@@ -60,7 +58,6 @@ public class TeacherDao {
         }
     }
 
-    // TODO: 15/10/2020 add Test getTeacher
     public static Teacher getTeacher(int teacherId) throws SQLException, NamingException {
         PreparedStatement statement = null;
         ResultSet set = null;

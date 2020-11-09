@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class SubjectDao {// TODO: 15/10/2020 Subject Queries
+public class SubjectDao {
 
     //    gets all courses from database
     public static ArrayList<Subject> getAllSubjects() throws SQLException, NamingException {

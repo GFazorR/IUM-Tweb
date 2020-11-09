@@ -9,7 +9,6 @@ import java.sql.*;
 
 public class TeachingDao {
     //  inserts the association teacher-subject into database
-    // TODO: 15/10/2020 add Teaching Queries
     public static Subject addTeaching(int subjectId, int teacherId) throws SQLException, NamingException {
         PreparedStatement statement = null;
         try (Connection conn = DbManager.getConnection()){

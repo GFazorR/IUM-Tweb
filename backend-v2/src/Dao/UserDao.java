@@ -12,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class UserDao {
-    // TODO: 04/11/2020 add comments, modify error messages
-
     public static void removeUserToken(String token) throws SQLException,NamingException {
         PreparedStatement s = null;
         try (Connection c = DbManager.getConnection()) {
