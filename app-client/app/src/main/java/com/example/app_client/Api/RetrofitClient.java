@@ -1,5 +1,8 @@
 package com.example.app_client.Api;
 
+import com.example.app_client.Utils.LoginManager;
+import com.example.app_client.Utils.UnauthorizedEvent;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
@@ -13,7 +16,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://localhost:8080/api/";
+    private static final String BASE_URL = "http://192.168.178.150:8080/backend-v2/api/";
     private static Retrofit retrofit;
 
     public RetrofitClient() {}
@@ -28,33 +31,36 @@ public class RetrofitClient {
                     .client(getClient())
                     .build();
         }
+        return retrofit;
     }
 
     private static OkHttpClient getClient(){
-        OkHttpClient.Builder httpclient = new OkHttpClient.Builder();
-        httpclient.connectTimeout(2, TimeUnit.SECONDS);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(2, TimeUnit.SECONDS);
 
-        httpclient.addInterceptor(chain -> {
+
+        httpClient.addInterceptor(chain -> {
             Request request = chain.request();
             HttpUrl.Builder builder = request.url().newBuilder();
 
+
             String token = LoginManager.getToken();
 
-            if (token != null )
+            if (token != null)
                 builder = builder.addQueryParameter("token",token);
+
 
             HttpUrl url = builder.build();
 
-            request= request.newBuilder().url(url).build();
-            Response response = chain.proceed(request);
+            request = request.newBuilder().url(url).build();
+            Response res= chain.proceed(request);
 
-            if (response.code() == 401)
+            if(res.code() == 401)
                 EventBus.getDefault().post(UnauthorizedEvent.instance());
-            return response
-
+            return res;
         });
 
-        return httpclient.build();
+        return httpClient.build();
     }
 
     public static Api getApi(){return getRetrofitInstance().create(Api.class);}

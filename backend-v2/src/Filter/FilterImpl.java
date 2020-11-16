@@ -8,10 +8,11 @@ import java.io.IOException;
 
 @WebFilter(asyncSupported = true, urlPatterns = {"/*"})
 public class FilterImpl implements Filter {
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public FilterImpl() {
     }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException { }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

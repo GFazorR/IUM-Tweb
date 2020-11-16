@@ -1,7 +1,15 @@
 package com.example.app_client.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Teacher {
+    @SerializedName("id")
+    @Expose
     private int id;
+
+    @SerializedName("name")
+    @Expose
     private String name;
 
     public Teacher(int id, String name) {
