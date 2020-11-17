@@ -1,11 +1,11 @@
 package com.example.app_client.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class SubjectPage extends Fragment {
+public class SubjectFragment extends Fragment {
 
     private ListView listView;
     private ArrayList<Subject> subjectArrayList;
@@ -33,15 +33,27 @@ public class SubjectPage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         subjectArrayList = new ArrayList<>();
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.subjects_page,container,false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.subjects_fragment,container,false);
         listView = (ListView) rootView.findViewById(R.id.subjectListView);
         subjectAdapter = new SubjectAdapter(getContext(), R.layout.list_item, subjectArrayList);
         listView.setAdapter(subjectAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startBooking(subjectArrayList.get(position));
+            }
+        });
 
         getSubjects();
 
         return  rootView;
     }
+
+
+    private void showResult(Throwable throwable){
+
+    }
+
 
 
 
@@ -57,4 +69,10 @@ public class SubjectPage extends Fragment {
                 );
     }
 
+    public void startBooking(Subject subject){
+        Intent intent = new Intent(getContext(), BookingActivity.class);
+        intent.putExtra("Subject", subject);
+        startActivity(intent);
+
+    }
 }

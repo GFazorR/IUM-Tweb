@@ -3,7 +3,9 @@ package com.example.app_client.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Teacher {
+import java.io.Serializable;
+
+public class Teacher implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;

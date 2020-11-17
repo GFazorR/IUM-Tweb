@@ -9,4 +9,6 @@
     <string name="continua_come_ospite">Continua come ospite</string>
     <string name="booking_page">Booking Page</string>
     <string name="textview">TextView</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
 </resources>

@@ -7,16 +7,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.app_client.Utils.LoginManager;
-import com.example.app_client.View.BookingPage;
-import com.example.app_client.View.SubjectPage;
+import com.example.app_client.View.UserAreaFragment;
+import com.example.app_client.View.SubjectFragment;
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class SubjectPagerAdapter extends FragmentStatePagerAdapter {
 
     private boolean isLoggedIn;
 
 
 
-    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+    public SubjectPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
         isLoggedIn = LoginManager.isLoggedIn();
     }
@@ -24,8 +24,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return position == 0 ? new SubjectPage() : new BookingPage();
+        return position == 0 ? new SubjectFragment() : new UserAreaFragment();
     }
+
+
 
     @Override
     public int getCount() { return isLoggedIn ? 2 : 1; }
@@ -33,6 +35,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return position == 0 ? "Prenota" : "Area Utente";
+        return position == 0 ? "Area Utente" : "Prenota";
     }
 }

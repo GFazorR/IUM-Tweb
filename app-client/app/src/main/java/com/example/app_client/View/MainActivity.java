@@ -9,12 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.app_client.Adapter.ViewPagerAdapter;
+import com.example.app_client.Adapter.SubjectPagerAdapter;
 import com.example.app_client.Api.RetrofitClient;
 import com.example.app_client.Model.User;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,17 +31,18 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pager = findViewById(R.id.pager);
         pager.setOffscreenPageLimit(0);
-        pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
+        pager.setAdapter(new SubjectPagerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         User user = LoginManager.getUser();
         if (user != null){
             menu.findItem(R.id.logout_item).setVisible(true);
@@ -86,4 +86,6 @@ public class MainActivity extends BaseActivity {
                         }
                 );
     }
+
+
 }

@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.app_client.R;
 
-public class BookingPage extends Fragment {
+public class UserAreaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return (ViewGroup) inflater.inflate(R.layout.booking_page,container,false);
+        return (ViewGroup) inflater.inflate(R.layout.user_area_fragment,container,false);
     }
 }

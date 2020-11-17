@@ -3,9 +3,10 @@ package com.example.app_client.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Subject {
+public class Subject implements Serializable {
     @SerializedName("id")
     @Expose
     private int id;
@@ -32,7 +33,4 @@ public class Subject {
     public int getId() { return id; }
     public String getName() { return name; }
     public ArrayList<Teacher> getTeachers() { return teachers; }
-
-
-
 }

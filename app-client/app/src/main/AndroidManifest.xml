@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".View.MainActivity"/>
+        <activity android:name=".View.BookingActivity"/>
         <activity android:name=".View.LoginActivity" android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
