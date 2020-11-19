@@ -73,6 +73,5 @@ public class SubjectFragment extends Fragment {
         Intent intent = new Intent(getContext(), BookingActivity.class);
         intent.putExtra("Subject", subject);
         startActivity(intent);
-
     }
 }

@@ -9,8 +9,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static Dao.BookingDao.getWeeklyBookings;
 import static Time.TimeUtility.getFirstDayOfWeek;
@@ -40,7 +40,7 @@ public class Slot {
         private static Map<LocalDate, ArrayList<Slot>> createNewWeeklyCalendar(int subjectId) throws SQLException, NamingException {
             Instant start = Instant.now();
             Subject subject = SubjectDao.getSubject(subjectId);
-            Map<LocalDate, ArrayList<Slot>> newCalendar = new HashMap<>();
+            Map<LocalDate, ArrayList<Slot>> newCalendar = new TreeMap<>();
             for (int i = 0; i<5; i++){
                 ArrayList<Slot> slots = new ArrayList<>();
                 for (int j = 0; j<5 ; j++){

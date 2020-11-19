@@ -22,16 +22,18 @@ public class SlotServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-//        int subjectId= Integer.parseInt(req.getParameter("subjectId"));
+        int subjectId= Integer.parseInt(req.getParameter("subjectId"));
         PrintWriter out = resp.getWriter();
 
         try {
             Instant start = Instant.now();
-            out.write(new Gson().toJson(Slot.Dao.weeklySubjectCalendar(35)));
+            String gson = new Gson().toJson(Slot.Dao.weeklySubjectCalendar(subjectId));
+            out.write(gson);
             out.flush();
             Instant end = Instant.now();
             System.out.print("doGet: duration: ");
             System.out.println(Duration.between(start,end));
+            System.out.println(gson);
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

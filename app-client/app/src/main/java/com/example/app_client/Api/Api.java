@@ -2,8 +2,9 @@ package com.example.app_client.Api;
 import com.example.app_client.Model.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 
 
 import io.reactivex.Single;
@@ -19,7 +20,7 @@ import retrofit2.http.Query;
 public interface Api {
 
     @GET("Slot")
-    SingleMap<LocalDate,List<Slot>> getSubjectSlots(
+    Single<Map<String, ArrayList<Slot>>> getSubjectSlots(
             @Query("subjectId") int subjectId
     );
 
