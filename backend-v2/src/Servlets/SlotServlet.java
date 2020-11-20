@@ -3,6 +3,9 @@ package Servlets;
 import Dao.DbManager;
 import Model.Slot;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
@@ -16,6 +19,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @WebServlet(name = "Slot", urlPatterns = "/api/Slot")
 public class SlotServlet extends HttpServlet {
@@ -27,7 +31,10 @@ public class SlotServlet extends HttpServlet {
 
         try {
             Instant start = Instant.now();
-            String gson = new Gson().toJson(Slot.Dao.weeklySubjectCalendar(subjectId));
+            Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                    (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
+                            -> new JsonPrimitive(localDateTime.toString())).create();
+            String gson = localDateTimeSerializer.toJson(Slot.Dao.weeklySubjectCalendar(subjectId));
             out.write(gson);
             out.flush();
             Instant end = Instant.now();

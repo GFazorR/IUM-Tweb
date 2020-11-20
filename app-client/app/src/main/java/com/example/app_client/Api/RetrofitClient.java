@@ -1,10 +1,22 @@
 package com.example.app_client.Api;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.example.app_client.Utils.LoginManager;
 import com.example.app_client.Utils.UnauthorizedEvent;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
@@ -16,17 +28,20 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.178.150:8080/backend-v2/api/";
+    private static final String BASE_URL = "http://192.168.178.153:8080/backend-v2/api/";
     private static Retrofit retrofit;
 
     public RetrofitClient() {}
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private static Retrofit getRetrofitInstance(){
         if(retrofit == null){
-
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                    (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext)
+                    -> LocalDateTime.parse(json.getAsString())).create();
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(getClient())
                     .build();

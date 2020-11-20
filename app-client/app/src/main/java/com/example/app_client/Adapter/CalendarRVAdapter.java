@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_client.Model.Slot;
@@ -27,14 +29,17 @@ public class CalendarRVAdapter extends RecyclerView.Adapter<CalendarRVAdapter.Vi
     private LayoutInflater inflater;
     private Map<String, ArrayList<Slot>> calendar;
     private ArrayList<String> keys;
+    private ArrayList<SlotRCAdapter> adapters;
 
     public CalendarRVAdapter(Context context, Map<String, ArrayList<Slot>> calendar) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.calendar = calendar;
         this.keys = new ArrayList<>();
+        this.adapters = new ArrayList<>();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setAllData(Set<String> set){
         this.keys.addAll(set);
         notifyDataSetChanged();
@@ -52,6 +57,11 @@ public class CalendarRVAdapter extends RecyclerView.Adapter<CalendarRVAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LocalDate date = LocalDate.parse(keys.get(position));
         holder.header.setText(TimeUtility.formatWeekday(date));
+        SlotRCAdapter adapter = new SlotRCAdapter(context, calendar.get(keys.get(position)));
+        holder.slotCol.setLayoutManager(new GridLayoutManager(context,1));
+        holder.slotCol.setAdapter(adapter);
+        adapters.add(adapter);
+        /*adapter.setSlots(calendar.get(keys.get(position)));*/
     }
 
     @Override
@@ -61,10 +71,11 @@ public class CalendarRVAdapter extends RecyclerView.Adapter<CalendarRVAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView header;
-
+        private RecyclerView slotCol;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.header_id);
+            slotCol = itemView.findViewById(R.id.slots_col);
         }
     }
 }
