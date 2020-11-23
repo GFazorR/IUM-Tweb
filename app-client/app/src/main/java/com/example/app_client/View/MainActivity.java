@@ -1,16 +1,21 @@
 package com.example.app_client.View;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.app_client.Adapter.SubjectPagerAdapter;
 import com.example.app_client.Api.RetrofitClient;
+import com.example.app_client.Model.Subject;
 import com.example.app_client.Model.User;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
@@ -19,24 +24,24 @@ import com.google.android.material.tabs.TabLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
-
 public class MainActivity extends BaseActivity {
-
-    private ViewPager pager;
     private TabLayout tabs;
+    private ViewPager pager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         pager = findViewById(R.id.pager);
         pager.setOffscreenPageLimit(0);
-        pager.setAdapter(new SubjectPagerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
+        pager.setAdapter(new SubjectPagerAdapter(getSupportFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
     }
 
@@ -68,14 +73,14 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
-        if (pager.getCurrentItem() == 1)
-            pager.setCurrentItem(0,true);
-        else super.onBackPressed();
+        if (pager.getCurrentItem() == 0)
+            pager.setCurrentItem(1);
+        super.onBackPressed();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void logout(){
         RetrofitClient.getApi().logout().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

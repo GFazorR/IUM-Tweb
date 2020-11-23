@@ -4,6 +4,7 @@
     android:id="@+id/booking_activity_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="auto"
     android:orientation="vertical">
 
 
@@ -15,8 +16,29 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/booking_pager"
+    <TextView
+        android:id="@+id/subject_click"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="CalendarFragment" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/days_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:clickable="true"
+        android:orientation="horizontal">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/slot_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="76dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/teacher_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="76dp" />
+
 </LinearLayout>

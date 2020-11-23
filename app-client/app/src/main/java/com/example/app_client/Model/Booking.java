@@ -3,9 +3,7 @@ package com.example.app_client.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Booking {
     @SerializedName("id")
@@ -14,11 +12,15 @@ public class Booking {
 
     @SerializedName("subject")
     @Expose
-    private String subject;
+    private String subjectName;
 
     @SerializedName("teacher")
     @Expose
     private String teacher;
+
+    @SerializedName("teacher")
+    @Expose
+    private int teacherId;
 
     @SerializedName("user")
     @Expose
@@ -30,37 +32,32 @@ public class Booking {
 
     @SerializedName("date")
     @Expose
-    private String date;
+    private LocalDateTime dateTime;
 
 
-    public Booking(int id, String subject, String teacher, String user, int status, String date) {
-        this.id = id;
-        this.subject = subject;
-        this.teacher = teacher;
+    public Booking(String subjectName, String user, int status) {
+        this.subjectName = subjectName;
         this.user = user;
         this.status = status;
-        this.date = date;
-
     }
 
     public int getId() { return id; }
 
-    public String getSubject() { return subject; }
+    public String getSubject() { return subjectName; }
 
     public String getTeacher() { return teacher; }
 
+    public void setTeacher(String teacher) { this.teacher = teacher; }
+
+    public int getTeacherId() { return teacherId; }
+
+    public void setTeacherId(int teacherId) { this.teacherId = teacherId; }
+
     public String getUser() { return user; }
 
-    public String getDate() { return date; }
+    public LocalDateTime getDateTime() { return dateTime; }
 
-    public Date getDateTime() {
-        final String OLD_FORMAT = "yyyy-MM-dd kk:mm:ss";
-        try {
-            return new SimpleDateFormat(OLD_FORMAT).parse(date);
-        } catch (ParseException e) {
-            return null;
-        }
-    }
+    public void setDateTime(LocalDateTime dateTime){this.dateTime = dateTime;}
 
     public  boolean isConfirmed() { return  status == 30;}
 

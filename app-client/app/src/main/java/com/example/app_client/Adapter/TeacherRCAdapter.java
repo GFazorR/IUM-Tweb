@@ -3,7 +3,6 @@ package com.example.app_client.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
-import android.os.Build;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,30 +11,29 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_client.Model.Slot;
+import com.example.app_client.Model.Teacher;
 import com.example.app_client.R;
-import com.example.app_client.Utils.TimeUtility;
 
 import java.util.ArrayList;
 
-public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder> {
-    private ArrayList<Slot> slots;
+public class TeacherRCAdapter extends RecyclerView.Adapter<TeacherRCAdapter.ViewHolder> {
+    private ArrayList<Teacher> teachers;
     private LayoutInflater inflater;
-    private int selectedItem = RecyclerView.NO_POSITION;
     private Activity activity;
+    private int selectedItem =RecyclerView.NO_POSITION;
     private ClickListener listener;
 
-
-    public SlotRCAdapter(ArrayList<Slot> slots, Context context, Activity activity) {
-        this.slots = new ArrayList<>(slots);
+    public TeacherRCAdapter(ArrayList<Teacher> teachers, Context context, Activity activity) {
+        this.teachers = teachers;
         this.inflater = LayoutInflater.from(context);
         this.activity = activity;
     }
-    public void setData(ArrayList<Slot> slots){
-        this.slots.addAll(slots);
+
+    public void setData(ArrayList<Teacher> teachers){
+        this.teachers.addAll(teachers);
         notifyDataSetChanged();
     }
 
@@ -43,17 +41,15 @@ public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder
 
     public void clear(){
         int size = getItemCount();
-        slots.clear();
+        teachers.clear();
         selectedItem = RecyclerView.NO_POSITION;
         notifyItemRangeRemoved(0,size);
     }
 
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_slot,parent,false);
+        View view = inflater.inflate(R.layout.item_day, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,30 +62,27 @@ public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder
         return size.x/getItemCount();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.slotTextView.setVisibility(View.GONE);
-        if (slots.get(position).isAvailable()){
-            holder.slotTextView.setText(TimeUtility.formatTimestamp(slots.get(position).getDate(),"HH:mm"));
-            holder.slotTextView.getLayoutParams().width = getScreenWidth();
-            holder.slotTextView.setVisibility(View.VISIBLE);
-            holder.slotTextView.setSelected(selectedItem == position);
-        }
+        holder.teacherView.setVisibility(View.GONE);
+        holder.teacherView.setText(teachers.get(position).getName());
+        holder.teacherView.getLayoutParams().width = getScreenWidth();
+        holder.teacherView.setVisibility(View.VISIBLE);
+        holder.teacherView.setSelected(position == selectedItem);
     }
 
     @Override
     public int getItemCount() {
-        return slots.size();
+        return teachers.size();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView slotTextView;
+
+        TextView teacherView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            slotTextView = itemView.findViewById(R.id.slot_text);
-            slotTextView.setOnClickListener(this);
+            teacherView = itemView.findViewById(R.id.text_day);
+            teacherView.setOnClickListener(this);
         }
 
         @Override
@@ -97,19 +90,18 @@ public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder
             notifyItemChanged(selectedItem);
             selectedItem = getLayoutPosition();
             notifyItemChanged(selectedItem);
-            if (listener != null) listener.onSlotClick(v, getAdapterPosition());
+            if (listener != null) listener.onTeacherClick(v,getAdapterPosition());
         }
     }
 
-    public Slot getSelectedItem(){
-        return slots.get(selectedItem);
+    public Teacher getItem(int position){
+        return teachers.get(position);
     }
 
     public void setListener(ClickListener listener) { this.listener = listener; }
 
     public interface ClickListener{
-        void onSlotClick(View view, int position);
+        void onTeacherClick(View view, int position);
     }
-
 
 }

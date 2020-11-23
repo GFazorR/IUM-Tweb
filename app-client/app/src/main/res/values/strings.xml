@@ -11,4 +11,6 @@
     <string name="textview">TextView</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
+    <string name="button">Button</string>
+    <string name="retry">Retry</string>
 </resources>

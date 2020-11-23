@@ -3,6 +3,7 @@ package com.example.app_client.View;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -55,6 +56,17 @@ public class BaseActivity extends AppCompatActivity {
         if (title != null)
             textView.setText(title);
         return new AlertDialog.Builder(context,R.style.Theme_AppCompat_Light_Dialog)
+                .setView(view).setCancelable(false).create();
+    }
+
+    public AlertDialog getErrorDialog(Context context, Throwable error, View.OnClickListener listener){
+        View view = getLayoutInflater().inflate(R.layout.error_layout, null);
+        final TextView errorTxt = view.findViewById(R.id.error_text_view);
+        final Button errorButton = view.findViewById(R.id.retry_button);
+        errorButton.setOnClickListener(listener);
+        if (error != null)
+            errorTxt.setText(ErrorUtil.getErrorMessage(error));
+        return new AlertDialog.Builder(context, R.style.Theme_AppCompat_Light_Dialog)
                 .setView(view).setCancelable(false).create();
     }
 }

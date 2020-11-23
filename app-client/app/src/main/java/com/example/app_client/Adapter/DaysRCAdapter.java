@@ -19,41 +19,34 @@ import com.example.app_client.Model.Slot;
 import com.example.app_client.R;
 import com.example.app_client.Utils.TimeUtility;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
-public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder> {
-    private ArrayList<Slot> slots;
+public class DaysRCAdapter extends RecyclerView.Adapter<DaysRCAdapter.ViewHolder> {
+    private Map<String, ArrayList<Slot>> calendar;
+    private ArrayList<String> keys;
     private LayoutInflater inflater;
-    private int selectedItem = RecyclerView.NO_POSITION;
     private Activity activity;
+    private int selectedItem = RecyclerView.NO_POSITION;
     private ClickListener listener;
 
-
-    public SlotRCAdapter(ArrayList<Slot> slots, Context context, Activity activity) {
-        this.slots = new ArrayList<>(slots);
+    public DaysRCAdapter(Map<String, ArrayList<Slot>> calendar, Context context,Activity activity) {
+        this.calendar = calendar;
+        this.keys = new ArrayList<>(calendar.keySet());
         this.inflater = LayoutInflater.from(context);
         this.activity = activity;
     }
-    public void setData(ArrayList<Slot> slots){
-        this.slots.addAll(slots);
+
+    public void setKeys(){
+        this.keys.addAll(calendar.keySet());
         notifyDataSetChanged();
     }
-
-
-
-    public void clear(){
-        int size = getItemCount();
-        slots.clear();
-        selectedItem = RecyclerView.NO_POSITION;
-        notifyItemRangeRemoved(0,size);
-    }
-
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_slot,parent,false);
+        View view = inflater.inflate(R.layout.item_day,parent,false);
         return new ViewHolder(view);
     }
 
@@ -66,30 +59,32 @@ public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder
         return size.x/getItemCount();
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.slotTextView.setVisibility(View.GONE);
-        if (slots.get(position).isAvailable()){
-            holder.slotTextView.setText(TimeUtility.formatTimestamp(slots.get(position).getDate(),"HH:mm"));
-            holder.slotTextView.getLayoutParams().width = getScreenWidth();
-            holder.slotTextView.setVisibility(View.VISIBLE);
-            holder.slotTextView.setSelected(selectedItem == position);
+
+        if (calendar.get(keys.get(position)).stream().anyMatch(Slot::isAvailable)){
+            LocalDate date = LocalDate.parse(keys.get(position));
+            holder.dayTextView.setText(TimeUtility.formatWeekday(date));
+            holder.dayTextView.getLayoutParams().width = getScreenWidth();
+            holder.dayTextView.setSelected(selectedItem == position);
         }
     }
 
     @Override
     public int getItemCount() {
-        return slots.size();
+        return keys.size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView slotTextView;
+        private TextView dayTextView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            slotTextView = itemView.findViewById(R.id.slot_text);
-            slotTextView.setOnClickListener(this);
+            dayTextView = itemView.findViewById(R.id.text_day);
+            dayTextView.setOnClickListener(this);
         }
 
         @Override
@@ -97,19 +92,18 @@ public class SlotRCAdapter extends RecyclerView.Adapter<SlotRCAdapter.ViewHolder
             notifyItemChanged(selectedItem);
             selectedItem = getLayoutPosition();
             notifyItemChanged(selectedItem);
-            if (listener != null) listener.onSlotClick(v, getAdapterPosition());
+            if (listener != null) listener.onDayClick(v, getAdapterPosition());
         }
     }
 
-    public Slot getSelectedItem(){
-        return slots.get(selectedItem);
-    }
+    public void setListener(DaysRCAdapter.ClickListener listener){this.listener = listener;}
 
-    public void setListener(ClickListener listener) { this.listener = listener; }
+    public String getItem(int position){
+        return keys.get(position);
+    }
 
     public interface ClickListener{
-        void onSlotClick(View view, int position);
+        void onDayClick(View view, int position);
     }
-
 
 }

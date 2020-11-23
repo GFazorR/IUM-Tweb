@@ -1,36 +1,103 @@
 package com.example.app_client.View;
 
-import android.app.ActionBar;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NavUtils;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_client.Adapter.BookingPagerViewerAdapter;
+import com.example.app_client.Adapter.DaysRCAdapter;
+import com.example.app_client.Adapter.SlotRCAdapter;
+import com.example.app_client.Adapter.TeacherRCAdapter;
+import com.example.app_client.Api.RetrofitClient;
+import com.example.app_client.Model.Booking;
+import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Subject;
 import com.example.app_client.R;
+import com.example.app_client.Utils.LoginManager;
 
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class BookingActivity extends BaseActivity {
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+public class BookingActivity extends BaseActivity implements DaysRCAdapter.ClickListener, SlotRCAdapter.ClickListener, TeacherRCAdapter.ClickListener {
     private Toolbar actionBar;
-    private ViewPager viewPager;
+    private String selectedSubject;
+    private Subject subject;
+    private Booking booking;
+    private TextView textView;
+    private Map<String, ArrayList<Slot>> calendar;
+    private RecyclerView daysRecycler;
+    private DaysRCAdapter daysRCAdapter;
+    private RecyclerView slotRecycler;
+    private SlotRCAdapter slotRCAdapter;
+    private AlertDialog progressDialog;
+    private AlertDialog errorDialog;
+    private RecyclerView teacherRecycler;
+    private TeacherRCAdapter teacherRCAdapter;
 
+
+    public void setSubject(){
+        Subject subject = (Subject) getIntent().getSerializableExtra("Subject");
+        this.subject = subject;
+        this.booking = new Booking(subject.getName(), LoginManager.getUser().getUsername(),10);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_activity);
+        calendar = new TreeMap<>();
         actionBar = findViewById(R.id.booking_toolbar);
+
+        progressDialog = getProgressDialog(this);
+        progressDialog.show();
+
         setSupportActionBar(actionBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewPager = findViewById(R.id.booking_pager);
-        viewPager.setOffscreenPageLimit(0);
-        viewPager.setAdapter(new BookingPagerViewerAdapter(getSupportFragmentManager(),BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
+
+
+        textView = findViewById(R.id.subject_click);
+
+        setSubject();
+        textView.setText(subject.getName());
+
+        daysRecycler = findViewById(R.id.days_recycler);
+        daysRCAdapter = new DaysRCAdapter(calendar, this, this);
+        daysRCAdapter.setListener(this);
+        daysRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        daysRecycler.setAdapter(daysRCAdapter);
+
+        slotRecycler = findViewById(R.id.slot_recycler);
+        slotRCAdapter = new SlotRCAdapter(new ArrayList<>(),this, this);
+        slotRCAdapter.setListener(this);
+        slotRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        slotRecycler.setAdapter(slotRCAdapter);
+
+        teacherRecycler = findViewById(R.id.teacher_recycler);
+        teacherRCAdapter = new TeacherRCAdapter(new ArrayList<>(),this,this);
+        teacherRCAdapter.setListener(this);
+        teacherRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        teacherRecycler.setAdapter(teacherRCAdapter);
+
+
+
+
+        getSubjectCalendar();
+
     }
 
     @Override
@@ -43,12 +110,58 @@ public class BookingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showResult(Throwable throwable){
+        progressDialog.dismiss();
+        if (throwable != null){
+            errorDialog = getErrorDialog(this, throwable, l -> finish());
+            errorDialog.show();
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void getSubjectCalendar(){
+        RetrofitClient.getApi().getSubjectSlots(subject.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(map-> {
+                    calendar.putAll(map);
+                    daysRCAdapter.setKeys();
+                    progressDialog.dismiss();
+                }, this::showResult);
+    }
+
+
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0){
-            finish();
-        }else
-            viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
+        if (errorDialog != null)
+            errorDialog.dismiss();
+        finish();
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onDayClick(View view, int position) {
+        this.selectedSubject = daysRCAdapter.getItem(position);
+        slotRCAdapter.clear();
+        slotRCAdapter.setData(new ArrayList<>(calendar.get(selectedSubject)));
+    }
+
+    @Override
+    public void onSlotClick(View view, int position) {
+        booking.setDateTime(slotRCAdapter.getSelectedItem().getDate());
+        teacherRCAdapter.clear();
+        teacherRCAdapter.setData(new ArrayList<>(calendar.get(selectedSubject).get(position).getTeachers()));
+    }
+
+    @Override
+    public void onTeacherClick(View view, int position) {
+        booking.setTeacher(teacherRCAdapter.getItem(position).getName());
+        booking.setTeacherId(teacherRCAdapter.getItem(position).getId());
+        System.out.println(booking.getUser());
+        System.out.println(booking.getSubject());
+        System.out.println(booking.getDateTime());
+        System.out.println(booking.getTeacher());
+        System.out.println(booking.getTeacherId());
     }
 }

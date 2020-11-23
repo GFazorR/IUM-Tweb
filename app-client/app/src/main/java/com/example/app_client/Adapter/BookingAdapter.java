@@ -1,7 +1,6 @@
 package com.example.app_client.Adapter;
 
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import com.example.app_client.Model.Booking;
 import com.example.app_client.Model.User;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
-import com.example.app_client.View.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +54,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
 
         boolean ownBooking = booking.getUser().equals(username);
 
-        holder.bookTextView.setText(booking.getDate());
+        /*holder.bookTextView.setText(booking.getDateTime());*/
         holder.courseTextView.setText(booking.getSubject());
 //      holder.startTextView.setText(booking.getStart()); TODO: Get hour
         holder.teacherTextView.setText(booking.getTeacher() + "" + booking.getStatus());

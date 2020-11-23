@@ -7,19 +7,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.app_client.Utils.LoginManager;
-import com.example.app_client.View.UserAreaFragment;
 import com.example.app_client.View.SubjectFragment;
+import com.example.app_client.View.UserAreaFragment;
 
 public class SubjectPagerAdapter extends FragmentStatePagerAdapter {
 
     private boolean isLoggedIn;
 
 
-
     public SubjectPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
         isLoggedIn = LoginManager.isLoggedIn();
     }
+
 
     @NonNull
     @Override
