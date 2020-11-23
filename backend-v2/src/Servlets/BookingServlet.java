@@ -8,6 +8,9 @@ import Model.Booking;
 import Model.Flags;
 import Model.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 // TODO: 05/11/2020 add comments and refactor
@@ -69,10 +73,19 @@ public class BookingServlet extends HttpServlet {
             if(subject == null || date == null || date == null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
                         "Subject, teacher or date not provided");
+            LocalDateTime dateTime = LocalDateTime.parse(date);
             Booking booking = BookingDao.addBooking(Integer.parseInt(teacher),
-                    Integer.parseInt(subject), date, user.getId());
+                    Integer.parseInt(subject), dateTime, user.getId());
+
+            Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                    (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
+                            -> new JsonPrimitive(localDateTime.toString())).create();
+
+            String gson = localDateTimeSerializer.toJson(booking);
+
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(booking));
+
+            out.println(gson);
             out.flush();
         } catch (SQLException | NamingException throwables) {
             throw new ServletException(throwables);

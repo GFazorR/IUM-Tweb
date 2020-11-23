@@ -39,6 +39,7 @@ public class RetrofitClient {
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
                     (JsonDeserializer<LocalDateTime>) (json, type, jsonDeserializationContext)
                     -> LocalDateTime.parse(json.getAsString())).create();
+
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))

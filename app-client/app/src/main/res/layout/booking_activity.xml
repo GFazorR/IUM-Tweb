@@ -19,8 +19,11 @@
     <TextView
         android:id="@+id/subject_click"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CalendarFragment" />
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Seleziona Data"
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/days_recycler"
@@ -31,14 +34,43 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/seleziona_slot"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20sp"
+        android:gravity="center"
+        android:text="Seleziona Orario"
+        android:textSize="20sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/slot_recycler"
         android:layout_width="match_parent"
-        android:layout_height="76dp" />
+        android:layout_height="76dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/select_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Seleziona Professore"
+        android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/teacher_recycler"
         android:layout_width="match_parent"
-        android:layout_height="76dp" />
+        android:layout_height="76dp" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/book_slot_button"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_marginTop="50dp"
+        android:text="Prenota" />
 
 </LinearLayout>

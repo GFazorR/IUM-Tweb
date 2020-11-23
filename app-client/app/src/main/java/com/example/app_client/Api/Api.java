@@ -1,7 +1,9 @@
 package com.example.app_client.Api;
 import com.example.app_client.Model.*;
+import com.example.app_client.Utils.LoginManager;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import io.reactivex.internal.operators.single.SingleMap;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -45,9 +48,11 @@ public interface Api {
     Single<List<Booking>> getBookings();
 
     @POST("Bookings")
-    Single<Booking> createBookings(
-      @Query("subject") int idSubject
-    );
+    Single<Booking> bookSlot(
+            @Query("subject") int subjectId,
+            @Query("teacher") int teacherId,
+            @Query("date") String dateBooked
+            );
 
     @DELETE("Bookings")
     Single<Response<Void>> deleteBookings(

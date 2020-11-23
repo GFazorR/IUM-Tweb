@@ -4,7 +4,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -24,6 +26,7 @@ import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Subject;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
+import com.example.app_client.Utils.TimeUtility;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -47,6 +50,7 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     private AlertDialog errorDialog;
     private RecyclerView teacherRecycler;
     private TeacherRCAdapter teacherRCAdapter;
+    private Button bookSlotButton;
 
 
     public void setSubject(){
@@ -92,6 +96,24 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
         teacherRCAdapter.setListener(this);
         teacherRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
         teacherRecycler.setAdapter(teacherRCAdapter);
+
+        bookSlotButton = findViewById(R.id.book_slot_button);
+        bookSlotButton.setOnClickListener(v -> {
+            if (booking.getDate() != null && booking.getTeacherId() != 0){
+                RetrofitClient.getApi().bookSlot(subject.getId(), booking.getTeacherId(),
+                        booking.getDate().toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(b -> {
+                            progressDialog.show();
+                            System.out.println(b);
+                            progressDialog.dismiss();
+                            this.finish();
+                        },this::showResult);
+            }else
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        });
+
 
 
 
@@ -149,7 +171,7 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
 
     @Override
     public void onSlotClick(View view, int position) {
-        booking.setDateTime(slotRCAdapter.getSelectedItem().getDate());
+        booking.setDate(slotRCAdapter.getSelectedItem().getDate());
         teacherRCAdapter.clear();
         teacherRCAdapter.setData(new ArrayList<>(calendar.get(selectedSubject).get(position).getTeachers()));
     }
@@ -160,7 +182,7 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
         booking.setTeacherId(teacherRCAdapter.getItem(position).getId());
         System.out.println(booking.getUser());
         System.out.println(booking.getSubject());
-        System.out.println(booking.getDateTime());
+        System.out.println(booking.getDate());
         System.out.println(booking.getTeacher());
         System.out.println(booking.getTeacherId());
     }

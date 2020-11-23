@@ -12,13 +12,13 @@ public class Booking {
 
     @SerializedName("subject")
     @Expose
-    private String subjectName;
+    private String subject;
 
     @SerializedName("teacher")
     @Expose
     private String teacher;
 
-    @SerializedName("teacher")
+    @SerializedName("teacherId")
     @Expose
     private int teacherId;
 
@@ -32,18 +32,18 @@ public class Booking {
 
     @SerializedName("date")
     @Expose
-    private LocalDateTime dateTime;
+    private LocalDateTime date;
 
 
-    public Booking(String subjectName, String user, int status) {
-        this.subjectName = subjectName;
+    public Booking(String subject, String user, int status) {
+        this.subject = subject;
         this.user = user;
         this.status = status;
     }
 
     public int getId() { return id; }
 
-    public String getSubject() { return subjectName; }
+    public String getSubject() { return subject; }
 
     public String getTeacher() { return teacher; }
 
@@ -55,9 +55,9 @@ public class Booking {
 
     public String getUser() { return user; }
 
-    public LocalDateTime getDateTime() { return dateTime; }
+    public LocalDateTime getDate() { return date; }
 
-    public void setDateTime(LocalDateTime dateTime){this.dateTime = dateTime;}
+    public void setDate(LocalDateTime date){this.date = date;}
 
     public  boolean isConfirmed() { return  status == 30;}
 

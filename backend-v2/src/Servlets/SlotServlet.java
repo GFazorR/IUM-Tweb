@@ -40,7 +40,6 @@ public class SlotServlet extends HttpServlet {
             Instant end = Instant.now();
             System.out.print("doGet: duration: ");
             System.out.println(Duration.between(start,end));
-            System.out.println(gson);
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

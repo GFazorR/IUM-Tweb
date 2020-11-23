@@ -1,10 +1,12 @@
 package com.example.app_client.View;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.app_client.Api.RetrofitClient;
@@ -22,6 +24,7 @@ public class LoginActivity extends BaseActivity {
     private TextInputEditText inputUsername;
     private TextInputEditText inputPassword;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +51,12 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void validate(String username, String password) {
         AlertDialog progressDialog = getProgressDialog(LoginActivity.this);
         progressDialog.show();
 
-        Disposable subscribe = RetrofitClient.getApi().login(username, password)
+        RetrofitClient.getApi().login(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(u -> {

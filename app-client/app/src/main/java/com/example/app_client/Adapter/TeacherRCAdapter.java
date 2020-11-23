@@ -59,7 +59,7 @@ public class TeacherRCAdapter extends RecyclerView.Adapter<TeacherRCAdapter.View
         Point size = new Point();
         display.getSize(size);
 
-        return size.x/getItemCount();
+        return size.x/4;
     }
 
     @Override
