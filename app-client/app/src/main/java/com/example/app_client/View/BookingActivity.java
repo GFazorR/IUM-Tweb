@@ -26,7 +26,6 @@ import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Subject;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
-import com.example.app_client.Utils.TimeUtility;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -59,11 +58,13 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
         this.booking = new Booking(subject.getName(), LoginManager.getUser().getUsername(),10);
     }
 
+    // TODO: 24/11/2020 Code Reorganize and refactor
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.booking_activity);
+        setContentView(R.layout.activity_booking);
         calendar = new TreeMap<>();
         actionBar = findViewById(R.id.booking_toolbar);
 

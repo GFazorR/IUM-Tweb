@@ -9,13 +9,11 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.app_client.Adapter.SubjectPagerAdapter;
 import com.example.app_client.Api.RetrofitClient;
-import com.example.app_client.Model.Subject;
 import com.example.app_client.Model.User;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
@@ -33,7 +31,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

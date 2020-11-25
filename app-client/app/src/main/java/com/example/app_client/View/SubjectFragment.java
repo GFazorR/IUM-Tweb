@@ -3,7 +3,6 @@ package com.example.app_client.View;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class SubjectFragment extends Fragment implements SubjectRCAdapter.ClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         subjectArrayList = new ArrayList<>();
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.subjects_fragment,container,false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_subjects,container,false);
 
         progressDialog = ((MainActivity) getActivity()).getProgressDialog(getContext());
         progressDialog.show();

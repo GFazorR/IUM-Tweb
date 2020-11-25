@@ -65,7 +65,11 @@ public class Booking {
 
     public boolean isInit() { return status == 10;}
 
-    public String getStatus(){
+    public int getStatus(){
+        return status;
+    }
+
+    public String getStatusTitle(){
         switch (status){
             case 10:
                 return "Attiva";

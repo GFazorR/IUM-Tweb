@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 // TODO: 05/11/2020 add comments and refactor
 
@@ -41,22 +40,26 @@ public class BookingServlet extends HttpServlet {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         PrintWriter out = resp.getWriter();
-        ArrayList<Booking> bookings;
+        String gson = null;
+
+        Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
+                        -> new JsonPrimitive(localDateTime.toString())).create();
+
         try {
             User user = Auth.authUser(token);
             if (user.isAdmin())
-                bookings = BookingDao.getAllBookings();
+                gson = localDateTimeSerializer.toJson(BookingDao.getAllBookings());
             else
-                bookings = BookingDao.getUserBookings(user.getId());
-
+                gson = localDateTimeSerializer.toJson(BookingDao.getUserBookings(user.getId()));
 
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(bookings));
+            out.println(gson);
             out.flush();
 
 
-        } catch (SQLException | NamingException throwables) {
-            throw new ServletException(throwables);
+        } catch (SQLException | NamingException throwable) {
+            throw new ServletException(throwable);
         }
     }
 
@@ -118,18 +121,17 @@ public class BookingServlet extends HttpServlet {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         String bookingId = req.getParameter("id");
-        PrintWriter out = resp.getWriter();
 
         try {
             User user = Auth.authUser(token);
             if (bookingId == null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST, "BookingId not provided");
-            Booking booking = BookingDao.setUserBookingStatus(Integer.parseInt(bookingId),user.getId(),Flags.CONFIRMED);
+            BookingDao.setUserBookingStatus(Integer.parseInt(bookingId),user.getId(),Flags.CONFIRMED);
+            // TODO: 25/11/2020 setUserBookingStatus return void
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(booking));
-            out.flush();
-        } catch (SQLException | NamingException throwables) {
-            throw new ServletException(throwables);
+        } catch (SQLException | NamingException throwable) {
+            System.out.println("exception");
+            throw new ServletException(throwable);
         }
     }
 }

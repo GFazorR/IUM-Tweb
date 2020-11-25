@@ -57,8 +57,8 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.MyViewHo
         /*holder.bookTextView.setText(booking.getDateTime());*/
         holder.courseTextView.setText(booking.getSubject());
 //      holder.startTextView.setText(booking.getStart()); TODO: Get hour
-        holder.teacherTextView.setText(booking.getTeacher() + "" + booking.getStatus());
-        holder.statusTextView.setText(booking.getStatus());
+        holder.teacherTextView.setText(booking.getTeacher() + "" + booking.getStatusTitle());
+        holder.statusTextView.setText(booking.getStatusTitle());
         holder.tvUser.setText(booking.getUser());
         holder.tvUser.setVisibility(ownBooking ? View.GONE : View.VISIBLE);
 

@@ -55,12 +55,12 @@ public interface Api {
             );
 
     @DELETE("Bookings")
-    Single<Response<Void>> deleteBookings(
+    Single<Response<Void>> cancelBookings(
             @Query("id") int idBooking
     );
 
     @PUT("Bookings")
-    Single<Booking> confirmBookings(
+    Single<Response<Void>> confirmBookings(
             @Query("id") int idBooking
     );
 

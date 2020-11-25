@@ -13,4 +13,6 @@
     <string name="wednesday">Wednesday</string>
     <string name="button">Button</string>
     <string name="retry">Retry</string>
+    <string name="conferma">Conferma</string>
+    <string name="Elimina">Elimina</string>
 </resources>

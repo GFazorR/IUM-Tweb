@@ -108,7 +108,7 @@ public class BookingDao {
                         set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
-                        set.getTimestamp("data")));
+                        set.getTimestamp("datetime")));
             }
             return bookings;
         }finally {

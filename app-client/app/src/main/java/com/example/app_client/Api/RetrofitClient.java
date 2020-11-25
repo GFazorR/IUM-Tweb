@@ -28,7 +28,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://localhost:8080/backend-v2/api/";
+    private static final String BASE_URL = "http://localhost:xxxx/backend-v2/api/";
     private static Retrofit retrofit;
 
     public RetrofitClient() {}

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.app_client.Utils.LoginManager;
 import com.example.app_client.View.SubjectFragment;
-import com.example.app_client.View.UserAreaFragment;
+import com.example.app_client.View.DashBoardFragment;
 
 public class SubjectPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -24,7 +24,7 @@ public class SubjectPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return position == 0 ? new SubjectFragment() : new UserAreaFragment();
+        return position == 0 ? new SubjectFragment() : new DashBoardFragment();
     }
 
 

@@ -51,7 +51,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public AlertDialog getProgressDialog(Context context, String title){
-        View view = getLayoutInflater().inflate(R.layout.progress_dialog, null);
+        View view = getLayoutInflater().inflate(R.layout.layout_progress_dialog, null);
         TextView textView = view.findViewById(R.id.progressTitle);
         if (title != null)
             textView.setText(title);
@@ -60,7 +60,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public AlertDialog getErrorDialog(Context context, Throwable error, View.OnClickListener listener){
-        View view = getLayoutInflater().inflate(R.layout.error_layout, null);
+        View view = getLayoutInflater().inflate(R.layout.layout_error, null);
         final TextView errorTxt = view.findViewById(R.id.error_text_view);
         final Button errorButton = view.findViewById(R.id.retry_button);
         errorButton.setOnClickListener(listener);

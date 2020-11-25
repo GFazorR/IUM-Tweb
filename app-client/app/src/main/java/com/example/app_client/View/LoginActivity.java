@@ -15,9 +15,7 @@ import com.example.app_client.Utils.LoginManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends BaseActivity {
     private Button btnLogin;
@@ -28,7 +26,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         if (LoginManager.isLoggedIn()){
             mainAct();
