@@ -69,6 +69,10 @@ public class Booking {
         return status;
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getStatusTitle(){
         switch (status){
             case 10:
@@ -80,5 +84,9 @@ public class Booking {
             default:
                 return null;
         }
+    }
+
+    public void setUser(String user){
+        this.user = user;
     }
 }

@@ -63,7 +63,7 @@ public class BookingDao {
                                                 "join corso as cs on pr.corso = cs.id)" +
                                                 "join docente as d on pr.docente = d.id) " +
                                                 "join utente as u on pr.utente = u.id " +
-                                                "where datetime >= ? and datetime <= ?" +
+                                                "where datetime >= ? and datetime <= ? and stato != 20" +
                                                 "order by pr.id desc ");
             statement.setTimestamp(1, Timestamp.valueOf(getFirstDayOfWeek()));
             statement.setTimestamp(2, Timestamp.valueOf(getLastDayOfWeek()));
@@ -98,7 +98,7 @@ public class BookingDao {
                             "join docente as d on pr.docente = d.id) " +
                             "join utente as u on pr.utente = u.id " +
                             "where utente = ?" +
-                            "order by pr.id desc ");
+                            "order by pr.stato, pr.datetime desc ");
             statement.setInt(1, userId);
             set = statement.executeQuery();
             while (set.next()){

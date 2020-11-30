@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -33,10 +35,23 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/moment'
+    '@nuxtjs/moment',
+    'nuxt-fontawesome',
+    'bootstrap-vue/nuxt',
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+  },
+  moment:{
+    defaultLocale: 'it',
+    locales: ['it']
+  },
+  toast:{
+    position:'top-right',
+    duration: 2000
+  },
+  axios:{
+    baseURL:'http://localhost:8080/backend-v2/api/'
   }
 }

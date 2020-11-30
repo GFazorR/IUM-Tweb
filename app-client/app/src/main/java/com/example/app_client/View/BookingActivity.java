@@ -26,6 +26,7 @@ import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Subject;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
+import com.example.app_client.Utils.UnauthorizedEvent;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -50,12 +51,36 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     private RecyclerView teacherRecycler;
     private TeacherRCAdapter teacherRCAdapter;
     private Button bookSlotButton;
+    static boolean isRunning = false;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isRunning = true;
+        System.out.println("started");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isRunning = false;
+        System.out.println("stopped");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("resumed");
+        if (booking.getUser() == null && LoginManager.getUser() != null)
+            booking.setUser(LoginManager.getUser().getUsername());
+    }
 
     public void setSubject(){
         Subject subject = (Subject) getIntent().getSerializableExtra("Subject");
         this.subject = subject;
-        this.booking = new Booking(subject.getName(), LoginManager.getUser().getUsername(),10);
+        if (LoginManager.getUser() != null)
+            this.booking = new Booking(subject.getName(), LoginManager.getUser().getUsername(),10);
+        else this.booking = new Booking(subject.getName(), null,10);
     }
 
     // TODO: 24/11/2020 Code Reorganize and refactor
@@ -109,10 +134,10 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
                             progressDialog.show();
                             System.out.println(b);
                             progressDialog.dismiss();
-                            this.finish();
                         },this::showResult);
             }else
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+
         });
 
 
@@ -136,7 +161,7 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     private void showResult(Throwable throwable){
         progressDialog.dismiss();
         if (throwable != null){
-            errorDialog = getErrorDialog(this, throwable, l -> finish());
+            errorDialog = getErrorDialog(this, throwable, l -> errorDialog.dismiss());
             errorDialog.show();
         }
     }
@@ -181,7 +206,7 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     public void onTeacherClick(View view, int position) {
         booking.setTeacher(teacherRCAdapter.getItem(position).getName());
         booking.setTeacherId(teacherRCAdapter.getItem(position).getId());
-        System.out.println(booking.getUser());
+
         System.out.println(booking.getSubject());
         System.out.println(booking.getDate());
         System.out.println(booking.getTeacher());

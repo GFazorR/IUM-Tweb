@@ -10,8 +10,8 @@
           {{t}}
         </button>
     </div>
-      
-    
+
+
   </div>
 </template>
 
@@ -21,7 +21,7 @@ import toggleButtonVue from '../components/toggle-button.vue'
 export default {
   props:['toggleButtonVue'],
   async asyncData({ $axios }) {
-    const subjects = await $axios.$get('http://localhost:8080/backend-v2/api/Subjects')
+    const subjects = await $axios.$get('Subjects')
     return { subjects }
   },
   methods:{

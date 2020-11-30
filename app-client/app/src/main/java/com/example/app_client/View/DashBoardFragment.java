@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.app_client.Adapter.DashboardRCAdapter;
 import com.example.app_client.Api.RetrofitClient;
 import com.example.app_client.Model.Booking;
 import com.example.app_client.R;
+import com.example.app_client.Utils.LoginManager;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,8 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
     private ArrayList<Booking> bookings;
     private RecyclerView bookedSlots;
     private DashboardRCAdapter dashBoardAdapter;
+    private androidx.appcompat.app.AlertDialog progressDialog;
+    private AlertDialog errorDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
@@ -38,9 +42,10 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_dashboard,container,false);
         // TODO: 24/11/2020 add progress dialog and error dialog
         this.bookings = new ArrayList<>();
+        progressDialog = ((MainActivity) getActivity()).getProgressDialog(getContext());
+
         bookedSlots = rootView.findViewById(R.id.booked_slots);
         bookedSlots.setLayoutManager(new LinearLayoutManager(getContext()));
-        // TODO: 24/11/2020 adapter
         dashBoardAdapter = new DashboardRCAdapter(bookings, getContext());
         dashBoardAdapter.setListener(this);
         bookedSlots.setAdapter(dashBoardAdapter);
@@ -56,12 +61,14 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
     public void onResume() {
         super.onResume();
         getBookings();
-
     }
 
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "CheckResult"})
     private void getBookings() {
+        if (errorDialog != null && errorDialog.isShowing())
+            errorDialog.dismiss();
+        progressDialog.show();
         RetrofitClient.getApi().getBookings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -70,47 +77,67 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
                     bookings.clear();
                     bookings = (ArrayList<Booking>) l;
                     dashBoardAdapter.setData(bookings);
+                    progressDialog.dismiss();
+                }, t -> {
+                    progressDialog.dismiss();
+                    errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), t, v->{
+                        errorDialog.dismiss();
+                        getBookings();
+                    });
+                    errorDialog.show();
                 });
     }
 
-    // TODO: 25/11/2020 retrofit call confirm
     @SuppressLint("CheckResult")
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void confirmBooking(int bookingId){
+    private void confirmBooking(int bookingId, int position){
+        progressDialog.show();
         RetrofitClient.getApi().confirmBookings(bookingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        v-> getBookings()
+                        v-> {
+                            dashBoardAdapter.setItemStatus(position ,30);
+                            progressDialog.dismiss();
+                        },
+                        this::showResult
                 );
     }
 
-    private void onError(Throwable throwable){
-        Toast.makeText(getContext(),throwable.getMessage(),Toast.LENGTH_SHORT);
+    private void showResult(Throwable throwable){
+        progressDialog.dismiss();
+        if (throwable!=null){
+            errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), throwable, v -> errorDialog.dismiss());
+            errorDialog.show();
+        }
     }
 
 
-    // TODO: 25/11/2020 retrofit call cancel
+
     @SuppressLint("CheckResult")
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void cancelBooking(int bookingId){
+    private void cancelBooking(int bookingId,int position){
+        progressDialog.show();
         RetrofitClient.getApi().cancelBookings(bookingId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        v-> getBookings(),this::onError
+                        v-> {
+                            dashBoardAdapter.setItemStatus(position,20);
+                            progressDialog.dismiss();
+                        },this::showResult
                 );
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClickConfirm(int position) {
-        confirmBooking(dashBoardAdapter.getItem(position).getId());
+        confirmBooking(dashBoardAdapter.getItem(position).getId(), position);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClickCancel(int position) {
-        cancelBooking(dashBoardAdapter.getItem(position).getId());
+        cancelBooking(dashBoardAdapter.getItem(position).getId(), position);
     }
 }

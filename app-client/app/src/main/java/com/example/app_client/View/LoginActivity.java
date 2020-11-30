@@ -49,6 +49,12 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+    private void resumeBooking(){
+        Intent openMainActivity = new Intent(LoginActivity.this, BookingActivity.class);
+        openMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityIfNeeded(openMainActivity, 0);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void validate(String username, String password) {
         AlertDialog progressDialog = getProgressDialog(LoginActivity.this);
@@ -60,7 +66,8 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(u -> {
                     progressDialog.hide();
                     LoginManager.setUser(u);
-                    mainAct();
+                    if (BookingActivity.isRunning)resumeBooking();
+                    else mainAct();
                     }, e -> {
                     progressDialog.hide();
                     showErrorMessage(e);

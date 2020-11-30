@@ -44,6 +44,11 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         notifyItemRangeRemoved(0,size);
     }
 
+    public void setItemStatus(int position, int status){
+        bookings.get(position).setStatus(status);
+        notifyItemChanged(position);
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
