@@ -39,6 +39,7 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
+        System.out.println(token!= null);
         PrintWriter out = resp.getWriter();
         String gson = null;
 
@@ -67,18 +68,18 @@ public class BookingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
-        String subject = req.getParameter("subject");
-        String teacher = req.getParameter("teacher");
+        String subjectId = req.getParameter("subject");
+        String teacherId = req.getParameter("teacher");
         String date = req.getParameter("date");
         PrintWriter out = resp.getWriter();
         try {
             User user = Auth.authUser(token);
-            if(subject == null || date == null || date == null)
+            if(subjectId == null || date == null || date == null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
                         "Subject, teacher or date not provided");
             LocalDateTime dateTime = LocalDateTime.parse(date);
-            Booking booking = BookingDao.addBooking(Integer.parseInt(teacher),
-                    Integer.parseInt(subject), dateTime, user.getId());
+            Booking booking = BookingDao.addBooking(Integer.parseInt(teacherId),
+                    Integer.parseInt(subjectId), dateTime, user.getId());
 
             Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
                     (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
