@@ -17,16 +17,16 @@ export const getters = {
   jwt() {
     return state.user != null ? state.user.token : null;
   },
-  selectedSubject(state) {
+  getSelectedSubject(state) {
     return state.selectedSubject;
   },
-  selectedSlot(state) {
+  getSelectedSlot(state) {
     return state.selectedSlot;
   },
-  selectedTeacher(state) {
+  getSelectedTeacher(state) {
     return state.selectedTeacher;
   },
-  slots(state) {
+  getSlots(state) {
     return state.slots;
   }
 };
@@ -36,6 +36,7 @@ export const mutations = {
     state.user = user;
   },
   CLEAR_BOOKING(state) {
+    state.selectedSubject = null;
     state.selectedSlot = null;
     state.selectedTeacher = null;
   },
@@ -48,12 +49,7 @@ export const mutations = {
   SET_TEACHER(state, teacher) {
     state.selectedTeacher = teacher;
   },
-  async SET_SLOTS(state) {
-    const slots = await this.$axios.get("Slot", {
-      params: {
-        subjectId: state.selectedSubject.id
-      }
-    });
+  SET_SLOTS(state, slots) {
     var tmp = Object.keys(slots.data).map(d => {
       return { date: d, daySlots: slots.data[d] };
     });
@@ -66,12 +62,17 @@ export const actions = {
     commit("SET_SUBJECT", subject);
     commit("SET_TEACHER", null);
     commit("SET_SLOT", null);
-    commit("SET_SLOTS");
+    const slots = await this.$axios.get("Slot", {
+      params: {
+        subjectId: subject.id
+      }
+    });
+
+    commit("SET_SLOTS", slots);
   },
   setSlot({ commit }, slot) {
     commit("SET_TEACHER", null);
     commit("SET_SLOT", slot);
-    // commit('CLEAR_BOOKING')
   },
   setTeacher({ commit }, teacher) {
     commit("SET_TEACHER", teacher);
@@ -84,8 +85,6 @@ export const actions = {
         date: state.selectedSlot.date
       }
     });
-
-    commit("SET_SLOTS");
     commit("CLEAR_BOOKING");
     this.$toast.show("Prenotazione effettuata");
   }
