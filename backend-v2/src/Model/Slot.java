@@ -45,6 +45,8 @@ public class Slot {
                 ArrayList<Slot> slots = new ArrayList<>();
                 for (int j = 0; j<5 ; j++){
                     Slot slot =new Slot(getFirstDayOfWeek().plusDays(i).plusHours(15+j),subject);
+                    if (subject.getTeachers().isEmpty())
+                        slot.setAvailable(false);
                     slots.add(slot);
                 }
                 newCalendar.put(getFirstDayOfWeek().plusDays(i).toLocalDate(),slots);
@@ -67,9 +69,9 @@ public class Slot {
                     for (Booking booking: bookings){
                         if (slot.getDate().isEqual(booking.getDate())){
                             slot.teachers.removeIf(t -> t.getId() == booking.getTeacherId());
-                            if (slot.teachers.isEmpty())
-                                slot.setAvailable(false);
                         }
+                        if (slot.teachers.isEmpty())
+                            slot.setAvailable(false);
                     }
                 }
             }
