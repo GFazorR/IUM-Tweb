@@ -1,74 +1,83 @@
 <template>
-  <!-- TODO Fix Layout  -->
-  <!-- TODO maybe create componets -->
-  <div class="container">
-    <!-- Tabella Subjects -->
-    <b-row>
-      <b-col cols="2">
-        <subjectsComponent :subjects="subjects"> </subjectsComponent>
-      </b-col>
-      <b-col cols="10">
-        <!-- Calendar  -->
-        <b-container v-if="selectedSubject != null">
-          <b-card class="calendar">
-            <h1 class="px-2 pb-1 mb-2 border-bottom border-dark text-center">
-              {{ selectedSubject.name }}
-            </h1>
-            <b-row>
-              <b-container>
-                <b-card
-                  v-for="d of this.slots"
-                  :key="d.date"
-                  class=" d-inline-block"
-                >
-                  <p
-                    class="px-2 pb-1 mb-2 border-bottom border-dark text-center"
-                  >
-                    {{ $moment(d.date).format("ddd DD/MM/YY") }}
-                  </p>
-                  <b-button-group vertical class="mx-auto">
-                    <b-button
-                      v-for="s of d.daySlots"
-                      :key="s.date"
-                      :disabled="!s.isAvailable"
-                      :variant="available(s)"
-                      @click="setSlot(s)"
-                      class="sm my-1 "
-                    >
-                      {{ $moment(s.date).format("HH:mm") }}
-                    </b-button>
-                  </b-button-group>
-                </b-card>
-              </b-container>
-            </b-row>
-          </b-card>
-        </b-container>
-        <!-- /Calendar -->
-        <!-- Select Teachers -->
-        <b-container v-if="selectedSlot != null">
-          <b-card>
-            <b-button
-              v-for="t of selectedSlot.teachers"
-              :key="t.id"
-              @click="setTeacher(t)"
-            >
-              {{ t.name }}
-            </b-button>
-          </b-card>
-        </b-container>
-        <!-- /Select Teachers -->
-        <!-- Riepilogo e prenota-->
-        <b-card v-if="selectedTeacher != null">
-          <p>{{ selectedSubject.name }}</p>
-          <p>{{ $moment(selectedSlot.date).format("ddd DD/MM/YY HH:mm") }}</p>
-          <p>{{ selectedTeacher.name }}</p>
-          <b-button @click="bookSlot">
-            Prenota
+  <div>
+    <b-card v-if="selectedSubject == null">
+      <h2>Seleziona una materia</h2>
+      <b-card no-body class="m-b1" v-for="s in subjects" :key="s.id">
+        <!-- Seleziona Materia -->
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button
+            block
+            v-b-toggle="'accordion-' + s.id"
+            variant="info"
+            @click="setSubject(s)"
+            v-b-modal.modal
+          >
+            {{ s.name }}
           </b-button>
-        </b-card>
-        <!-- /Riepilogo -->
-      </b-col>
-    </b-row>
+        </b-card-header>
+        <!-- /Seleziona Materia -->
+      </b-card>
+    </b-card>
+    <b-card v-if="selectedSubject != null && selectedSlot == null">
+      <b-container fluid>
+        <b-button variant="danger" @click="setSubject(null)">
+          Back
+        </b-button>
+        <h3>Seleziona lo slot</h3>
+        <b-row>
+          <b-col v-for="d of slots" :key="d.date">
+            <p class="px-2 pb-1 mb-2 border-bottom border-dark text-center">
+              {{ $moment(d.date).format("ddd DD/MM/YY") }}
+            </p>
+            <div v-for="sl of d.daySlots" :key="sl.date">
+              <b-button
+                class="w-100 mb-1"
+                :disabled="!sl.isAvailable"
+                :variant="available(sl)"
+                @click="setSlot(sl)"
+              >
+                {{ $moment(sl.date).format("HH:mm") }}
+              </b-button>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-card>
+    <b-card v-if="selectedSlot != null && selectedTeacher == null">
+      <b-button variant="danger" @click="setSlot(null)">
+        Back
+      </b-button>
+      <h3>Seleziona Professore</h3>
+      <b-container>
+        <b-row>
+          <b-button
+            v-for="t of selectedSlot.teachers"
+            :key="t.id"
+            @click="setTeacher(t)"
+            class="mr-2"
+          >
+            {{ t.name }}
+          </b-button>
+        </b-row>
+      </b-container>
+    </b-card>
+    <b-card v-if="selectedTeacher != null">
+      <b-button variant="danger" @click="setTeacher(null)">
+        Back
+      </b-button>
+      <h3>Riepilogo Prenotazione</h3>
+      <p><b>Materia: </b>{{ selectedSubject.name }}</p>
+      <p>
+        <b>Orario: </b
+        >{{ $moment(selectedSlot.date).format("ddd DD/MM/YY HH:mm") }}
+      </p>
+      <p><b>Professore: </b>{{ selectedTeacher.name }}</p>
+      <div class="mx-auto mt-5" style="width: 200px;">
+        <b-button variant="success" @click="bookSlot" style="width: 200px;">
+          Prenota!
+        </b-button>
+      </div>
+    </b-card>
   </div>
 </template>
 
@@ -76,29 +85,16 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
-import subjectsComponent from "../components/subjects-component.vue";
-// TODO maybe redo component
-// import calendarComponent from "../components/calendar-component.vue";
-
 export default {
   layout: "logged",
-  components: { subjectsComponent },
   async asyncData({ $axios }) {
     const subjects = await $axios.$get("Subjects");
     return { subjects };
   },
   data() {
-    return {
-      //table fields
-      fields: [
-        {
-          key: "name"
-        }
-      ]
-    };
+    return {};
   },
   computed: {
-    //vuex-persist methods
     ...mapGetters([
       "selectedSubject",
       "selectedSlot",
@@ -108,7 +104,6 @@ export default {
     ])
   },
   methods: {
-    //vuex-persist methods
     ...mapActions([
       "setSubject",
       "setSlot",
@@ -116,11 +111,6 @@ export default {
       "bookSlot",
       "clearBooking"
     ]),
-    subjectSelected(row) {
-      this.setSubject(row);
-    },
-    // sets buttons style
-    //TODO set danger if date expired
     available(s) {
       return s.isAvailable ? "success" : "danger";
     }
