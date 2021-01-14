@@ -2,28 +2,51 @@
   <div id="index">
     <b-progress :value="value" :max="max" animated></b-progress>
     <b-card v-if="getSelectedSubject == null">
-      <h2>Seleziona una materia</h2>
-      <b-card no-body class="m-b1" v-for="s in subjects" :key="s.id">
+      <b-container fluid>
+        <h2>Seleziona una materia</h2>
+
         <!-- Seleziona Materia -->
-        <b-card-header header-tag="header" class="p-1" role="tab">
-          <b-button block variant="info" @click="setSubject(s), state()">
-            {{ s.name }}
-          </b-button>
-        </b-card-header>
-        <!-- /Seleziona Materia -->
-      </b-card>
+
+        <b-row>
+          <b-col
+            cols="12"
+            sm="auto"
+            class="mt-1 mr-1"
+            v-for="s in subjects"
+            :key="s.id"
+          >
+            <b-button
+              block
+              variant="info"
+              @click="setSubject(s), state()"
+              style="width: 190px"
+            >
+              {{ s.name }}
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+      <!-- /Seleziona Materia -->
     </b-card>
+
     <b-card v-if="this.getSelectedSubject != null && getSelectedSlot == null">
       <b-button
+        class="ml-4 mb-2"
         variant="danger"
         @click="$store.commit('SET_SUBJECT', null), state()"
       >
         Back
       </b-button>
-      <h3>Seleziona lo slot</h3>
+      <h3 class="ml-4">Seleziona lo slot per {{ getSelectedSubject.name }}</h3>
       <b-container fluid>
         <b-row>
-          <b-col v-for="d of getSlots" :key="d.date">
+          <b-col
+            cols="12"
+            xl="2"
+            v-for="d of getSlots"
+            :key="d.date"
+            class="mx-auto"
+          >
             <p class="px-2 pb-1 mb-2 border-bottom border-dark text-center">
               {{ $moment(d.date).format("ddd DD/MM/YY") }}
             </p>
@@ -48,16 +71,19 @@
         Back
       </b-button>
       <h3>Seleziona Professore</h3>
-      <b-container>
+      <b-container fluid>
         <b-row>
-          <b-button
+          <b-col
+            class="mt-1 mr-1"
+            cols="12"
+            sm="auto"
             v-for="t of getSelectedSlot.teachers"
             :key="t.id"
-            @click="setTeacher(t), state()"
-            class="mr-2"
           >
-            {{ t.name }}
-          </b-button>
+            <b-button @click="setTeacher(t), state()" style="width: 200px;">
+              {{ t.name }}
+            </b-button>
+          </b-col>
         </b-row>
       </b-container>
     </b-card>

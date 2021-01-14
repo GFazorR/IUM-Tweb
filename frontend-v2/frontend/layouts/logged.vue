@@ -1,17 +1,36 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar sticky toggleable="lg" type="dark" variant="dark">
       <b-container>
-        <b-navbar-brand href="#">VueRipetizioni</b-navbar-brand>
-
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-brand>Ripetizioni</b-navbar-brand>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/" exact exact-active-class="active">Calendario</b-nav-item>
-            <b-nav-item v-if="user" to="/dashboard" exact exact-active-class="active">Prenotazioni</b-nav-item>
-            <b-nav-item v-if="isAdmin" to="/subjects" exact exact-active-class="active">Corsi</b-nav-item>
-            <b-nav-item v-if="isAdmin" to="/teachers" exact exact-active-class="active">Professori</b-nav-item>
+            <b-nav-item to="/" exact exact-active-class="active"
+              >Calendario</b-nav-item
+            >
+            <b-nav-item
+              v-if="user"
+              to="/dashboard"
+              exact
+              exact-active-class="active"
+              >Prenotazioni</b-nav-item
+            >
+            <b-nav-item
+              v-if="isAdmin"
+              to="/subjects"
+              exact
+              exact-active-class="active"
+              >Corsi</b-nav-item
+            >
+            <b-nav-item
+              v-if="isAdmin"
+              to="/teachers"
+              exact
+              exact-active-class="active"
+              >Professori</b-nav-item
+            >
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -19,10 +38,13 @@
             <b-nav-item-dropdown v-if="user" right>
               <!-- Using 'button-content' slot -->
               <template v-slot:button-content>
-                <b class="text-white pr-2">{{user.username}}</b>
+                <b class="text-white pr-2">{{ user.username }}</b>
               </template>
-
-              <b-dropdown-item @click="logout">Esci</b-dropdown-item>
+              <template
+                ><b-dropdown-item @click="logout"
+                  >Esci</b-dropdown-item
+                ></template
+              >
             </b-nav-item-dropdown>
             <b-nav-item v-else to="/login" exact exact-active-class="active">
               <b class="text-white pr-2">Login</b>
@@ -36,21 +58,23 @@
     </b-container>
   </div>
 </template>
-<style lang="css"></style>
+
+<style></style>
+
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(['user', 'isAdmin'])
+    ...mapGetters(["user", "isAdmin"])
   },
   methods: {
     async logout() {
-      if(this.$store.getters.user != null){
-        await this.$axios.post('Logout')
-        this.$store.commit('SET_USER', null)
+      if (this.$store.getters.user != null) {
+        await this.$axios.post("Logout");
+        this.$store.commit("SET_USER", null);
       }
-      this.$router.push('/login')
+      this.$router.push("/");
     }
   }
-}
+};
 </script>

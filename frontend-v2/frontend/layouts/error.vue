@@ -5,7 +5,7 @@
     <h2 class="text-danger my-2" variant="danger">
       <b>{{ message }}</b>
     </h2>
-    <nuxt-link v-if="status === 401" to="login">Vai al login</nuxt-link>
+    <nuxt-link v-if="status === 401" to="/login">Vai al login</nuxt-link>
     <nuxt-link v-else to="/">Home</nuxt-link>
   </b-container>
 </template>
