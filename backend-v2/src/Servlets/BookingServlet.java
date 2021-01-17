@@ -39,7 +39,6 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
-        System.out.println(token!= null);
         PrintWriter out = resp.getWriter();
         String gson = null;
 
@@ -118,7 +117,7 @@ public class BookingServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         String bookingId = req.getParameter("id");
@@ -131,7 +130,7 @@ public class BookingServlet extends HttpServlet {
             // TODO: 25/11/2020 setUserBookingStatus return void
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
         } catch (SQLException | NamingException throwable) {
-            System.out.println("exception");
+
             throw new ServletException(throwable);
         }
     }

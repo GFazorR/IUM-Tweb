@@ -1,7 +1,7 @@
 <template>
   <!-- TODO put form in modal or drop down? -->
   <b-container>
-    <b-button variant="success" v-b-modal.modal>
+    <b-button class="mb-4" variant="success" v-b-modal.modal>
       Aggiungi professore
     </b-button>
     <b-modal id="modal" title="Aggiungi un professore" hide-footer centered>

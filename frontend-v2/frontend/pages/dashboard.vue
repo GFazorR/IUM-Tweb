@@ -9,14 +9,7 @@
         Torna alla Home per prenotare
       </h4>
     </div>
-    <b-table
-      v-else
-      striped
-      borderless
-      responsive
-      :items="bookings"
-      :fields="fields"
-    >
+    <b-table v-else responsive :items="bookings" :fields="fields">
       <!-- Action Col -->
       <template v-slot:cell(actions)="booking">
         <b-button-group>
@@ -72,12 +65,29 @@ export default {
       fields: [
         {
           key: "subject",
+          label: "Materia",
           sortable: false
         },
-        "teacher",
-        "date",
-        "status",
-        "actions"
+        {
+          key: "teacher",
+          label: "Professore",
+          sortable: false
+        },
+        {
+          key: "date",
+          label: "Data",
+          sortable: false
+        },
+        {
+          key: "status",
+          label: "Stato prenotazione",
+          sortable: false
+        },
+        {
+          key: "actions",
+          label: "Azioni",
+          sortable: false
+        }
       ]
     };
   },

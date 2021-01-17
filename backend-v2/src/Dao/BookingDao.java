@@ -132,7 +132,7 @@ public class BookingDao {
             while (set.next()){
                 bookings.add(new Booking(set.getInt("id"),
                         set.getString("titolo"),
-                        set.getString("nome") + ""+ set.getString("cognome"),
+                        set.getString("nome") + " "+ set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
                         set.getTimestamp("datetime")));
