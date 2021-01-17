@@ -1,7 +1,22 @@
 <template>
   <div>
     <!-- Table Bookings -->
-    <b-table striped borderless responsive :items="bookings" :fields="fields">
+    <div v-if="bookings.length == 0">
+      <h2 class="text-center">
+        Non ci sono prenotazioni
+      </h2>
+      <h4 class="text-center">
+        Torna alla Home per prenotare
+      </h4>
+    </div>
+    <b-table
+      v-else
+      striped
+      borderless
+      responsive
+      :items="bookings"
+      :fields="fields"
+    >
       <!-- Action Col -->
       <template v-slot:cell(actions)="booking">
         <b-button-group>
@@ -13,6 +28,7 @@
             "
             variant="success"
             class="ml-auto"
+            style="width: 150px;"
             @click="confirmBooking(booking.item.id)"
           >
             Conferma
@@ -25,6 +41,7 @@
             "
             variant="danger"
             class="ml-auto"
+            style="width: 150px;"
             @click="cancelBooking(booking.item.id)"
           >
             Cancella

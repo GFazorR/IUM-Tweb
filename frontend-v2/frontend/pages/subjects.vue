@@ -2,89 +2,121 @@
   <div>
     <!-- TODO maybe create components -->
     <!-- Button Collapse -->
-    <b-button v-b-toggle.collapse>
+    <b-button variant="success" v-b-modal.add-subject-modal>
       Aggiungi una materia
     </b-button>
     <!-- Form Collapse -->
-    <b-collapse id="collapse">
+    <b-modal
+      id="add-subject-modal"
+      title="Aggiungi una Materia"
+      centered
+      hide-footer
+    >
       <b-form-group label="Nome Materia:">
         <b-form-input
           id="subject-name-input"
           v-model="subjectName"
+          :state="subjectState"
+          aria-describedby="input-live-feedback"
           trim
           required
         ></b-form-input>
+        <b-form-invalid-feedback id="input-live-feedback">
+          Il campo non può essere vuoto
+        </b-form-invalid-feedback>
       </b-form-group>
-      <b-button @click="addSubject(subjectName)">AddSubjext</b-button>
-    </b-collapse>
+      <b-button variant="success" @click="addSubject(subjectName)"
+        >Aggiungi</b-button
+      >
+    </b-modal>
     <!-- /Form Collapse -->
 
     <!-- Subjects Table -->
     <b-container fluid class="pt-3">
-      <b-table
-        clickable
-        small
-        striped
-        hover
-        borderless
-        responsive
-        :items="subjects"
-        :fields="fields"
-        v-model="currentItems"
-        @row-clicked="toggleDetails"
-      >
+      <b-table hover :items="subjects" :fields="fields" v-model="currentItems">
         <!-- Button ToggleDetails -->
+        <template v-slot:cell(name)="{ item }">
+          <div class="ml-1">
+            <b> {{ item.name }} </b>
+          </div>
+        </template>
         <template v-slot:cell(actions)="{ item }">
-          <b-btn @click="toggleDetails(item)">Manage</b-btn>
+          <div>
+            <b-button size="md" variant="primary" @click="toggleDetails(item)"
+              >Manage</b-button
+            >
+            <b-button size="md" variant="danger" @click="deleteSubject(item)">
+              Delete
+            </b-button>
+          </div>
         </template>
         <!-- /Button ToggleDetails -->
         <template v-slot:row-details="{ item }">
-          <b-button v-b-modal.modal @click="getAvailableTeachers(item)">
-            Aggiungi professori
-          </b-button>
-          <!-- Modal table -->
-          <b-modal id="modal" title="AddTeacher">
-            <b-table
-              selectable
-              small
-              striped
-              hover
-              borderless
-              responsive
-              sticky-header
-              :fields="fields"
-              :items="availableTeachers"
-              v-model="shownItems"
-              @row-selected="rowSelectedHandler"
+          <b-container fluid>
+            <b-button
+              variant="success"
+              v-b-modal.modal
+              @click="getAvailableTeachers(item)"
+              class="mt-2 mb-2 ml-2"
             >
-            </b-table>
-            <b-button @click="addTeacher(item)">
-              Aggiungi
+              Aggiungi professori
             </b-button>
-          </b-modal>
-          <!-- /Modal table -->
-          <!-- Delete Subject Button -->
-          <b-button @click="deleteSubject(item)">
-            DeleteSubject
-          </b-button>
-          <!-- /Delete Subject Button -->
-          <!-- Subject Teachers Table -->
-          <b-table
-            small
-            striped
-            hover
-            borderless
-            responsive
-            sticky-header
-            :fields="fields"
-            :items="item.teachers"
-          >
-            <template v-slot:cell(actions)="teacher">
-              <b-button @click="deleteTeacher(teacher, item)">
-                Elimina
+            <!-- Modal table -->
+            <b-modal
+              centered
+              hide-footer
+              id="modal"
+              title="Aggiungi Professori"
+            >
+              <b-table
+                selectable
+                small
+                striped
+                hover
+                borderless
+                responsive
+                sticky-header
+                :fields="fields"
+                :items="availableTeachers"
+                v-model="shownItems"
+                @row-selected="rowSelectedHandler"
+              >
+              </b-table>
+              <b-button variant="success" @click="addTeacher(item)">
+                Aggiungi
               </b-button>
-            </template>
-          </b-table>
+            </b-modal>
+            <!-- /Modal table -->
+            <!-- Delete Subject Button -->
+
+            <!-- /Delete Subject Button -->
+            <!-- Subject Teachers Table -->
+            <b-container v-if="item.teachers.length == 0">
+              <h4 class="text-center">
+                Non ci sono professori che insegnano questa materia
+              </h4>
+            </b-container>
+            <b-container v-else fluid>
+              <b-table
+                fixed
+                small
+                hover
+                striped
+                sticky-header
+                :fields="innerFields"
+                :items="item.teachers"
+              >
+                <template v-slot:cell(actions)="teacher">
+                  <b-button
+                    variant="danger"
+                    @click="deleteTeacher(teacher, item)"
+                  >
+                    Elimina
+                  </b-button>
+                </template>
+              </b-table>
+            </b-container>
+          </b-container>
           <!-- /Subject Teachers Table -->
         </template>
       </b-table>
@@ -98,6 +130,7 @@ export default {
   middleware: "admin",
   data() {
     return {
+      subjectName: "",
       currentItems: [],
       shownItems: [],
       selectedItems: [],
@@ -105,9 +138,28 @@ export default {
       fields: [
         {
           key: "name",
+          label: "Materia",
           sortable: false
         },
-        "actions"
+        {
+          key: "actions",
+          sortable: false,
+          class: "text-center",
+          style: "width=200px"
+        }
+      ],
+      innerFields: [
+        {
+          key: "name",
+          label: "Professore",
+          sortable: false
+        },
+        {
+          key: "actions",
+          sortable: false,
+          class: "text-center",
+          style: "width=200px"
+        }
       ]
     };
   },
@@ -144,12 +196,16 @@ export default {
     },
     //add subject request and update data
     async addSubject(subject) {
-      const newSubject = await this.$axios.post("Subjects", null, {
-        params: {
-          subject: subject
-        }
-      });
-      this.subjects.push(newSubject.data);
+      if (subject != "") {
+        const newSubject = await this.$axios.post("Subjects", null, {
+          params: {
+            subject: subject
+          }
+        });
+        this.subjects.push(newSubject.data);
+        this.subjectName = "";
+        this.$bvModal.hide("add-subject-modal");
+      }
     },
     //delete subject request and update data
     async deleteSubject(subject) {
@@ -174,16 +230,27 @@ export default {
       this.selectedItems = row;
     },
     // add teacher request and update data
-    addTeacher(item) {
-      this.selectedItems.forEach(async t => {
-        await this.$axios.post("Teaching", null, {
-          params: {
-            teacher: t.id,
-            subject: item.id
-          }
+    async addTeacher(item) {
+      if (this.selectedItems.length > 0) {
+        this.selectedItems.forEach(async t => {
+          await this.$axios.post("Teaching", null, {
+            params: {
+              teacher: t.id,
+              subject: item.id
+            }
+          });
+          item.teachers.push(t);
+          this.$bvModal.hide("modal");
+          this.selectedItems = [];
         });
-        item.teachers.push(t);
-      });
+      } else {
+        this.$toast.error("No Teachers selected!");
+      }
+    }
+  },
+  computed: {
+    subjectState() {
+      return this.subjectName.length > 0 ? true : false;
     }
   }
 };

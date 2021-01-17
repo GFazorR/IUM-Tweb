@@ -1,11 +1,16 @@
 <template>
   <!-- TODO put form in modal or drop down? -->
   <b-container>
-    <teacherForm @clicked="addTeacher"></teacherForm>
+    <b-button variant="success" v-b-modal.modal>
+      Aggiungi professore
+    </b-button>
+    <b-modal id="modal" title="Aggiungi un professore" hide-footer centered>
+      <teacherForm @clicked="addTeacher"></teacherForm>
+    </b-modal>
     <!-- Table teachers -->
-    <b-table striped hover borderless :fields="fields" :items="teachers">
+    <b-table hover :fields="fields" :items="teachers">
       <template v-slot:cell(actions)="teacher">
-        <b-button @click="setTeacherDeleted(teacher.item)">
+        <b-button variant="danger" @click="setTeacherDeleted(teacher.item)">
           Elimina
         </b-button>
       </template>
@@ -26,9 +31,15 @@ export default {
       fields: [
         {
           key: "name",
-          sortable: true
+          label: "Professore",
+          sortable: false
         },
-        "actions"
+        {
+          key: "actions",
+          sortable: false,
+          class: "text-center",
+          style: "width=200px"
+        }
       ]
     };
   },
@@ -53,14 +64,18 @@ export default {
     },
     //add Teacher request and update data
     async addTeacher(name, surname) {
-      const newTeacher = await this.$axios.post("Teachers", null, {
-        params: {
-          name: name,
-          surname: surname
-        }
-      });
-      console.log(newTeacher);
-      this.teachers.push(newTeacher.data);
+      if (name != "" && surname != "") {
+        const newTeacher = await this.$axios.post("Teachers", null, {
+          params: {
+            name: name,
+            surname: surname
+          }
+        });
+        this.teachers.push(newTeacher.data);
+        name = "";
+        surname = "";
+        this.$bvModal.hide("modal");
+      }
     }
   }
 };
