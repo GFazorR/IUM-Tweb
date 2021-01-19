@@ -34,6 +34,7 @@ import java.util.TreeMap;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 public class BookingActivity extends BaseActivity implements DaysRCAdapter.ClickListener, SlotRCAdapter.ClickListener, TeacherRCAdapter.ClickListener {
     private Toolbar actionBar;
@@ -161,8 +162,19 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     private void showResult(Throwable throwable){
         progressDialog.dismiss();
         if (throwable != null){
-            errorDialog = getErrorDialog(this, throwable, l -> errorDialog.dismiss());
-            errorDialog.show();
+            if(throwable instanceof HttpException){
+                HttpException exception = (HttpException)throwable;
+                if (exception.code() == 401){
+                    Toast toast = Toast.makeText(this,
+                            "E' necessario effettuare il login",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }else {
+                Toast toast = Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
         }
     }
 

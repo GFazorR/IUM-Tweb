@@ -15,4 +15,10 @@
     <string name="retry">Retry</string>
     <string name="conferma">Conferma</string>
     <string name="Elimina">Elimina</string>
+    <string name="seleziona_data">Seleziona Data</string>
+    <string name="seleziona_orario">Seleziona Orario</string>
+    <string name="seleziona_professore">Seleziona Professore</string>
+    <string name="prenota">Prenota</string>
+
+
 </resources>

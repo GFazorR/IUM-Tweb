@@ -64,12 +64,12 @@ public class LoginActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(u -> {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                     LoginManager.setUser(u);
                     if (BookingActivity.isRunning)resumeBooking();
                     else mainAct();
                     }, e -> {
-                    progressDialog.hide();
+                    progressDialog.dismiss();
                     showErrorMessage(e);
                     }
                 );

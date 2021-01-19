@@ -79,12 +79,14 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
                     dashBoardAdapter.setData(bookings);
                     progressDialog.dismiss();
                 }, t -> {
+
                     progressDialog.dismiss();
                     errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), t, v->{
                         errorDialog.dismiss();
                         getBookings();
+                        errorDialog.show();
                     });
-                    errorDialog.show();
+
                 });
     }
 
