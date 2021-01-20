@@ -94,7 +94,7 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 testViewHolder.status.setText(booking.getStatusTitle());
                 if (booking.getStatus() == 20)
                     testViewHolder.status.setTextColor(Color.RED);
-                else testViewHolder.status.setTextColor(Color.GREEN);
+                else testViewHolder.status.setTextColor(Color.parseColor("#2ca81c"));
                 testViewHolder.button.setVisibility(View.GONE);
                 break;
         }
@@ -135,11 +135,8 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             status = itemView.findViewById(R.id.status);
             button = itemView.findViewById(R.id.confirmButton);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) listener.onClickCancel(getAdapterPosition());
-                }
+            button.setOnClickListener(v -> {
+                if (listener != null) listener.onClickCancel(getAdapterPosition());
             });
 
 
@@ -163,11 +160,8 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             status = itemView.findViewById(R.id.status);
 
             button = itemView.findViewById(R.id.confirmButton);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) listener.onClickConfirm(getAdapterPosition());
-                }
+            button.setOnClickListener(v -> {
+                if (listener != null) listener.onClickConfirm(getAdapterPosition());
             });
 
         }

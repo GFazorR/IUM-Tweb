@@ -58,20 +58,17 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
     protected void onStart() {
         super.onStart();
         isRunning = true;
-        System.out.println("started");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         isRunning = false;
-        System.out.println("stopped");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("resumed");
         if (booking.getUser() == null && LoginManager.getUser() != null)
             booking.setUser(LoginManager.getUser().getUsername());
     }
@@ -219,9 +216,9 @@ public class BookingActivity extends BaseActivity implements DaysRCAdapter.Click
         booking.setTeacher(teacherRCAdapter.getItem(position).getName());
         booking.setTeacherId(teacherRCAdapter.getItem(position).getId());
 
-        System.out.println(booking.getSubject());
+        /*System.out.println(booking.getSubject());
         System.out.println(booking.getDate());
         System.out.println(booking.getTeacher());
-        System.out.println(booking.getTeacherId());
+        System.out.println(booking.getTeacherId());*/
     }
 }
