@@ -92,6 +92,7 @@ public class TeacherDao {
                     return getTeacher(set.getInt("id"));
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             if(e.getMessage().contains("ERROR: duplicate key value violates unique constraint")){
                 throw new HttpException(HttpServletResponse.SC_CONFLICT, "Professore gia' inserito");
             }
@@ -106,6 +107,7 @@ public class TeacherDao {
         PreparedStatement statement = null;
         try (Connection conn = DbManager.getConnection()){
             statement = conn.prepareStatement("UPDATE docente set deleted=TRUE where id=?");
+            statement.setInt(1,teacherID);
             if (statement.executeUpdate()>0)
                 return;
         }finally {

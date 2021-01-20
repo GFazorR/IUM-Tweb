@@ -73,7 +73,6 @@ public class TeacherServlet extends HttpServlet {
         String id = req.getParameter("id");
         String token = req.getParameter("token");
         PrintWriter out = resp.getWriter();
-        System.out.println(id);
         try {
             Auth.authAdmin(token);
             if (id == null)

@@ -5,6 +5,7 @@ import Dao.DbManager;
 import Dao.TeachingDao;
 import Exceptions.HttpException;
 import Model.Subject;
+import Model.Teacher;
 import com.google.gson.Gson;
 
 import javax.naming.NamingException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 // TODO: 06/11/2020 add comments and refactor
 @WebServlet(name = "Teaching", urlPatterns = "/api/Teaching")
@@ -25,6 +27,26 @@ public class TeachingServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         DbManager.registerDriver();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        String subjectId = req.getParameter("subject");
+        String token = req.getParameter("token");
+        PrintWriter out = resp.getWriter();
+        try {
+            Auth.authAdmin(token);
+            if(subjectId==null)
+                throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
+                        "Subject not provided");
+            ArrayList<Teacher> teachers = TeachingDao.getAvailableTeachers(Integer.parseInt(subjectId));
+            resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+            out.println(new Gson().toJson(teachers));
+            out.flush();
+        } catch (SQLException | NamingException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -38,7 +60,7 @@ public class TeachingServlet extends HttpServlet {
             Auth.authAdmin(token);
             if(subjectId==null || teacherId==null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
-                        "Teacher or Course not provided");
+                        "Teacher or Subject not provided");
 
             Subject subject= TeachingDao.addTeaching(
                     Integer.parseInt(subjectId),

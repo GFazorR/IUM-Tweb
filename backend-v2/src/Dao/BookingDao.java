@@ -7,16 +7,25 @@ import Model.Flags;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import static Time.TimeUtility.getFirstDayOfWeek;
+import static Time.TimeUtility.getLastDayOfWeek;
+
 public class BookingDao {
+
+
+
     public static ArrayList<Booking> getTeacherBookedSlots(int teacherId) throws SQLException, NamingException {
         PreparedStatement statement = null;
         ResultSet set = null;
         ArrayList<Booking> bookings = new ArrayList<>();
         try (Connection conn = DbManager.getConnection()){
             statement = conn.prepareStatement(
-                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.date, pr.stato " +
+                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.datetime, pr.stato " +
                         "from ((prenotazione as pr  " +
                         "join corso as cs on pr.corso = cs.id) " +
                         "join docente as d on pr.docente = d.id) " +
@@ -31,7 +40,7 @@ public class BookingDao {
                         set.getString("nome") + ""+ set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
-                        set.getString("date")));
+                        set.getTimestamp("date")));
             }
             return bookings;
         }finally {
@@ -40,19 +49,56 @@ public class BookingDao {
         // throw httpexception?
     }
 
+
+
+    // TODO: 14/11/2020 metodo che crea gli slot
+    public static ArrayList<Booking> getWeeklyBookings() throws SQLException, NamingException {
+        Instant start = Instant.now();
+        ArrayList<Booking> bookings = new ArrayList<>();
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        try (Connection conn = DbManager.getConnection()){
+            statement = conn.prepareStatement("select pr.id, cs.titolo, d.id, d.nome, d.cognome, pr.datetime, pr.stato " +
+                                                "from ((prenotazione as pr "+
+                                                "join corso as cs on pr.corso = cs.id)" +
+                                                "join docente as d on pr.docente = d.id) " +
+                                                "join utente as u on pr.utente = u.id " +
+                                                "where datetime >= ? and datetime <= ? and stato != 20" +
+                                                "order by pr.id desc ");
+            statement.setTimestamp(1, Timestamp.valueOf(getFirstDayOfWeek()));
+            statement.setTimestamp(2, Timestamp.valueOf(getLastDayOfWeek()));
+            set = statement.executeQuery();
+            while (set.next()){
+                bookings.add( new Booking(set.getInt("id"),
+                        set.getString("titolo"),
+                        set.getString("nome") + " " +
+                                set.getString("cognome"),
+                        set.getInt(3),
+                        set.getTimestamp("datetime").toLocalDateTime()));
+            }
+            return bookings;
+        }finally {
+            DbManager.close(statement,set);
+            Instant end = Instant.now();
+            System.out.print("getWeeklyBooking: duration : ");
+            System.out.println(Duration.between(start,end));
+        }
+
+    }
+
     public static ArrayList<Booking> getUserBookings(int userId) throws SQLException, NamingException {
         ArrayList<Booking> bookings = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()){
             statement = conn.prepareStatement(
-                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.date, pr.stato " +
+                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.datetime, pr.stato " +
                             "from ((prenotazione as pr  " +
                             "join corso as cs on pr.corso = cs.id) " +
                             "join docente as d on pr.docente = d.id) " +
                             "join utente as u on pr.utente = u.id " +
                             "where utente = ?" +
-                            "order by pr.id desc ");
+                            "order by pr.stato, pr.datetime desc ");
             statement.setInt(1, userId);
             set = statement.executeQuery();
             while (set.next()){
@@ -62,7 +108,7 @@ public class BookingDao {
                         set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
-                        set.getString("data")));
+                        set.getTimestamp("datetime")));
             }
             return bookings;
         }finally {
@@ -76,7 +122,7 @@ public class BookingDao {
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()){
             statement = conn.prepareStatement(
-                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.date, pr.stato " +
+                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.datetime, pr.stato " +
                             "from ((prenotazione as pr  " +
                             "join corso as cs on pr.corso = cs.id) " +
                             "join docente as d on pr.docente = d.id) " +
@@ -86,18 +132,20 @@ public class BookingDao {
             while (set.next()){
                 bookings.add(new Booking(set.getInt("id"),
                         set.getString("titolo"),
-                        set.getString("nome") + ""+ set.getString("cognome"),
+                        set.getString("nome") + " "+
+                                set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
-                        set.getString("date")));
+                        set.getTimestamp("datetime")));
             }
             return bookings;
-        }finally {
+        }
+        finally {
             DbManager.close(statement,set);
         }
     }
 
-    public static Booking addBooking(int teacherId, int subjectId, String date, int userId) throws SQLException, NamingException {
+    public static Booking addBooking(int teacherId, int subjectId, LocalDateTime date, int userId) throws SQLException, NamingException {
         PreparedStatement statement= null;
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()){
@@ -108,13 +156,14 @@ public class BookingDao {
             statement.setInt(2, subjectId);
             statement.setInt(3, teacherId);
             statement.setInt(4, Flags.INITIALIZED);
-            statement.setString(5, date);
+            statement.setTimestamp(5, Timestamp.valueOf(date));
             if (statement.executeUpdate()>0){
                 set = statement.getGeneratedKeys();
                 if (set.next())
                     return getBooking(set.getInt(1));
             }
         }catch (SQLException e){
+            System.out.println(e.getMessage());
             if(e.getMessage().contains("ERROR: duplicate key value violates unique constraint"))
                 throw new HttpException(HttpServletResponse.SC_CONFLICT, "Prenotazione gia' esistente");
             if(e.getMessage().contains("violates foreign key constraint"))
@@ -129,7 +178,7 @@ public class BookingDao {
         PreparedStatement statement= null;
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()){
-            statement = conn.prepareStatement("select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.date, pr.stato " +
+            statement = conn.prepareStatement("select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.datetime, pr.stato " +
                     "from ((prenotazione as pr  " +
                     "join corso as cs on pr.corso = cs.id) " +
                     "join docente as d on pr.docente = d.id) " +
@@ -143,7 +192,7 @@ public class BookingDao {
                         set.getString("nome") + ""+ set.getString("cognome"),
                         set.getString("account"),
                         set.getInt("stato"),
-                        set.getString("date"));
+                        set.getTimestamp("datetime"));
         }finally {
             DbManager.close(statement,set);
         }

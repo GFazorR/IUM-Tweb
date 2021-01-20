@@ -8,6 +8,9 @@ import Model.Booking;
 import Model.Flags;
 import Model.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
@@ -19,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 // TODO: 05/11/2020 add comments and refactor
 
@@ -37,22 +40,26 @@ public class BookingServlet extends HttpServlet {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         PrintWriter out = resp.getWriter();
-        ArrayList<Booking> bookings;
+        String gson = null;
+
+        Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
+                        -> new JsonPrimitive(localDateTime.toString())).create();
+
         try {
             User user = Auth.authUser(token);
             if (user.isAdmin())
-                bookings = BookingDao.getAllBookings();
+                gson = localDateTimeSerializer.toJson(BookingDao.getAllBookings());
             else
-                bookings = BookingDao.getUserBookings(user.getId());
-
+                gson = localDateTimeSerializer.toJson(BookingDao.getUserBookings(user.getId()));
 
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(bookings));
+            out.println(gson);
             out.flush();
 
 
-        } catch (SQLException | NamingException throwables) {
-            throw new ServletException(throwables);
+        } catch (SQLException | NamingException throwable) {
+            throw new ServletException(throwable);
         }
     }
 
@@ -60,19 +67,28 @@ public class BookingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
-        String subject = req.getParameter("subject");
-        String teacher = req.getParameter("teacher");
+        String subjectId = req.getParameter("subject");
+        String teacherId = req.getParameter("teacher");
         String date = req.getParameter("date");
         PrintWriter out = resp.getWriter();
         try {
             User user = Auth.authUser(token);
-            if(subject == null || date == null || date == null)
+            if(subjectId == null || date == null || date == null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST,
                         "Subject, teacher or date not provided");
-            Booking booking = BookingDao.addBooking(Integer.parseInt(teacher),
-                    Integer.parseInt(subject), date, user.getId());
+            LocalDateTime dateTime = LocalDateTime.parse(date);
+            Booking booking = BookingDao.addBooking(Integer.parseInt(teacherId),
+                    Integer.parseInt(subjectId), dateTime, user.getId());
+
+            Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                    (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
+                            -> new JsonPrimitive(localDateTime.toString())).create();
+
+            String gson = localDateTimeSerializer.toJson(booking);
+
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(booking));
+
+            out.println(gson);
             out.flush();
         } catch (SQLException | NamingException throwables) {
             throw new ServletException(throwables);
@@ -101,22 +117,21 @@ public class BookingServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
         String bookingId = req.getParameter("id");
-        PrintWriter out = resp.getWriter();
 
         try {
             User user = Auth.authUser(token);
             if (bookingId == null)
                 throw new HttpException(HttpServletResponse.SC_BAD_REQUEST, "BookingId not provided");
-            Booking booking = BookingDao.setUserBookingStatus(Integer.parseInt(bookingId),user.getId(),Flags.CONFIRMED);
+            BookingDao.setUserBookingStatus(Integer.parseInt(bookingId),user.getId(),Flags.CONFIRMED);
+            // TODO: 25/11/2020 setUserBookingStatus return void
             resp.setStatus(HttpServletResponse.SC_ACCEPTED);
-            out.println(new Gson().toJson(booking));
-            out.flush();
-        } catch (SQLException | NamingException throwables) {
-            throw new ServletException(throwables);
+        } catch (SQLException | NamingException throwable) {
+
+            throw new ServletException(throwable);
         }
     }
 }
