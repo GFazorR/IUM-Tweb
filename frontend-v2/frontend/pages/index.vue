@@ -1,45 +1,140 @@
 <template>
-  <div class="container">
-    <div v-for="s of subjects" :key="s.id">
-      <toggleButtonVue>{{s.name}}</toggleButtonVue>
+  <div id="index">
+    <div>
+      <b-container fluid>
+        <h2>Seleziona una materia</h2>
+
+        <!-- Seleziona Materia -->
+
+        <b-row>
+          <b-col
+            cols="12"
+            sm="auto"
+            class="mt-1 mr-1"
+            v-for="s in subjects"
+            :key="s.id"
+          >
+            <b-button
+              block
+              variant="info"
+              @click="setSubject(s)"
+              style="width: 190px"
+            >
+              {{ s.name }}
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+      <!-- /Seleziona Materia -->
     </div>
 
-    <div class="d-flex flex-column mr-2ay" v-for="d of getWeek()" :key="d.day">
-        <h3 >{{ $moment(d.day, 'YYYY-MM-DD').format('dd DD MMM YYYY') }}</h3>
-        <button class="px-2 pb-1 mb-2 border-bottom border-dark text-center" v-for="t of d.timeSlot" :key="t.id">
-          {{t}}
-        </button>
+    <div v-if="this.getSelectedSubject != null">
+      <h3 class="ml-4 mt-5">Seleziona lo slot</h3>
+      <b-container fluid>
+        <b-row>
+          <b-col
+            cols="12"
+            md="2"
+            v-for="d of getSlots"
+            :key="d.date"
+            class="mx-auto"
+            style="maxWidth: 200px;"
+          >
+            <p class="px-2 pb-1 mb-2 border-bottom border-info text-center">
+              {{ $moment(d.date).format("ddd DD/MM/YY") }}
+            </p>
+            <div v-for="sl of d.daySlots" :key="sl.date">
+              <b-button
+                class="w-100 mb-1"
+                :disabled="
+                  !sl.isAvailable || $moment(sl.date).isBefore($moment.now())
+                "
+                :variant="available(sl)"
+                @click="setSlot(sl)"
+              >
+                {{ $moment(sl.date).format("HH:mm") }}
+              </b-button>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
-      
-    
+    <div class="mt-5" v-if="getSelectedSlot != null">
+      <h3>Seleziona Professore</h3>
+      <b-container fluid>
+        <b-row>
+          <b-col
+            class="mt-1 mr-1"
+            cols="12"
+            sm="auto"
+            v-for="t of getSelectedSlot.teachers"
+            :key="t.id"
+          >
+            <b-button
+              variant="info"
+              @click="setTeacher(t)"
+              style="width: 200px;"
+            >
+              {{ t.name }}
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+    <div class="mt-5" v-if="getSelectedTeacher != null">
+      <h3>Riepilogo Prenotazione</h3>
+      <p><b>Materia: </b>{{ getSelectedSubject.name }}</p>
+      <p>
+        <b>Orario: </b
+        >{{ $moment(getSelectedSlot.date).format("ddd DD/MM/YY HH:mm") }}
+      </p>
+      <p><b>Professore: </b>{{ getSelectedTeacher.name }}</p>
+      <div class="mx-auto mt-5" style="width: 200px;">
+        <b-button variant="success" @click="bookSlot()" style="width: 200px;">
+          Prenota!
+        </b-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import toggleButtonVue from '../components/toggle-button.vue'
+import axios from "axios";
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
-  props:['toggleButtonVue'],
+  layout: "logged",
   async asyncData({ $axios }) {
-    const subjects = await $axios.$get('http://localhost:8080/backend-v2/api/Subjects')
-    return { subjects }
+    const subjects = await $axios.$get("Subjects");
+    return { subjects };
   },
-  methods:{
-    getWeek(){
-      var curr = new Date; // get current date
-      var first = curr.getDate() - curr.getDay() + (curr.getDay() === 0 ? -6:1); // First day is the day of the month - the day of the week
-      var week = new Array()
-      for(var i = 0 ; i <= 4; i++){
-        var slot = {
-          timeSlot : ["14:00","15:00","16:00","17:00","18:00"],
-          day : new Date(curr.setDate(first+i))
-        }
-        week.push(slot)
-      }
-      return week
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapGetters([
+      "getSelectedSubject",
+      "getSelectedSlot",
+      "getSelectedTeacher",
+      "getSlots",
+      "user"
+    ])
+  },
+  methods: {
+    ...mapActions([
+      "setSubject",
+      "setSlot",
+      "setTeacher",
+      "bookSlot",
+      "clearBooking"
+    ]),
+    available(s) {
+      return !s.isAvailable || this.$moment(s.date).isBefore(this.$moment.now())
+        ? "danger"
+        : "success";
     }
   }
-}
+};
 </script>
 
 <style></style>

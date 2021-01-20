@@ -16,7 +16,7 @@ public class UserDao {
         PreparedStatement s = null;
         try (Connection c = DbManager.getConnection()) {
             int result = 0;
-            s = c.prepareStatement("DELETE FROM \"public\".\"session_user\" WHERE \"token\" = ?");
+            s = c.prepareStatement("DELETE FROM \"public\".\"user_session\" WHERE \"token\" = ?");
             s.setString(1, token);
             result = s.executeUpdate();
             if (result > 0)
@@ -32,16 +32,16 @@ public class UserDao {
         PreparedStatement statement=null;
         ResultSet set =null;
         try(Connection c = DbManager.getConnection()){
-            statement = c.prepareStatement("select utente.*,\"session_user\".*\n" +
-                    "from utente,\"session_user\"\n" +
-                    "where utente.id=\"session_user\".user\n" +
-                    "and \"session_user\".token=? ");
+            statement = c.prepareStatement("select utente.*,\"user_session\".*\n" +
+                    "from utente,\"user_session\"\n" +
+                    "where utente.id=\"user_session\".user\n" +
+                    "and \"user_session\".token=? ");
             statement.setString(1,token);
             set = statement.executeQuery();
             if (set.next()) {
                 java.util.Date now= Calendar.getInstance().getTime();
-                Date genereted=new java.util.Date(set.getTimestamp("genereted").getTime());
-                long from=(TimeUnit.MINUTES.convert(Math.abs(now.getTime()-genereted.getTime()),
+                Date generated=new java.util.Date(set.getTimestamp("generated").getTime());
+                long from=(TimeUnit.MINUTES.convert(Math.abs(now.getTime()-generated.getTime()),
                         TimeUnit.MILLISECONDS));
 
                 int ttl=Integer.parseInt(DbManager.getTime());
@@ -127,7 +127,7 @@ public class UserDao {
             PreparedStatement statement=null;
             try(Connection c = DbManager.getConnection()){
                 statement = c.prepareStatement(
-                        "INSERT into \"session_user\" values (? , ?,DEFAULT,DEFAULT )");
+                        "INSERT into \"user_session\" values (DEFAULT , ?, ?,DEFAULT)", Statement.RETURN_GENERATED_KEYS);
                 statement.setInt(1,id);
                 statement.setString(2,token);
                 if(statement.executeUpdate()>0)
@@ -136,6 +136,7 @@ public class UserDao {
                 if(e.getMessage()
                         .contains("ERROR: duplicate key value violates unique constraint"))
                     throw new HttpException(HttpServletResponse.SC_CONFLICT, "Token gia' esistente");
+                System.out.println(e.getMessage());
             }
             finally {
                 DbManager.close(statement,null);

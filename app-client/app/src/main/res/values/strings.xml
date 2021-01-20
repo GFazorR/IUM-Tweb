@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">app-client</string>
+    <string name="log_in">Log In</string>
+    <string name="log_in_as_guest">Log In as Guest</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="todo">TODO</string>
+    <string name="continua_come_ospite">Continua come ospite</string>
+    <string name="booking_page">Booking Page</string>
+    <string name="textview">TextView</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="button">Button</string>
+    <string name="retry">Retry</string>
+    <string name="conferma">Conferma</string>
+    <string name="Elimina">Elimina</string>
+    <string name="seleziona_data">Seleziona Data</string>
+    <string name="seleziona_orario">Seleziona Orario</string>
+    <string name="seleziona_professore">Seleziona Professore</string>
+    <string name="prenota">Prenota</string>
+
+
 </resources>

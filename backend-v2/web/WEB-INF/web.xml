@@ -6,7 +6,7 @@
 
     <error-page>
         <exception-type>java.lang.Throwable</exception-type >
-        <location>/ErrorServlet</location>
+        <location>/api/Error</location>
     </error-page>
 
     <env-entry>
