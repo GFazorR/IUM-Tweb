@@ -10,12 +10,12 @@ import com.example.app_client.Utils.LoginManager;
 import com.example.app_client.View.SubjectFragment;
 import com.example.app_client.View.DashBoardFragment;
 
-public class SubjectPagerAdapter extends FragmentStatePagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private boolean isLoggedIn;
 
 
-    public SubjectPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+    public PagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
         isLoggedIn = LoginManager.isLoggedIn();
     }
