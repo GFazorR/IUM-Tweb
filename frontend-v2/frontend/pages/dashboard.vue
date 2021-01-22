@@ -10,7 +10,11 @@
       </h4>
     </div>
     <b-container v-else fluid>
-      <b-table responsive :items="bookings" :fields="fields">
+      <b-table
+        responsive
+        :items="bookings"
+        :fields="isAdmin ? fieldsAdmin : fields"
+      >
         <!-- Action Col -->
         <template v-slot:cell(actions)="booking">
           <b-button-group>
@@ -43,16 +47,12 @@
           </b-button-group>
         </template>
         <!-- Status Column -->
-        <template v-slot:cell(status)="booking">
-          <b-card fixed small class="text-center" style="width:140px">
-            <b v-if="booking.item.status == 10" class>Creata</b>
-            <b v-if="booking.item.status == 20" class="text-danger"
-              >Annullata</b
-            >
-            <b v-if="booking.item.status == 30" class="text-success"
-              >Confermata</b
-            >
-          </b-card>
+        <template id="status" v-slot:cell(status)="booking">
+          <b v-if="booking.item.status == 10" class>Creata</b>
+          <b v-if="booking.item.status == 20" class="text-danger">Annullata</b>
+          <b v-if="booking.item.status == 30" class="text-success"
+            >Confermata</b
+          >
         </template>
         <!-- Date Column -->
         <template v-slot:cell(date)="booking">
@@ -93,7 +93,47 @@ export default {
           key: "status",
           label: "Stato prenotazione",
           sortable: false,
+          class: "align-middle text-center",
+          tdClass: "rowtable"
+        },
+        {
+          key: "actions",
+          label: "Azioni",
+          sortable: false,
           class: "align-middle"
+        }
+      ],
+      fieldsAdmin: [
+        {
+          key: "user",
+          label: "Utente",
+          sortable: false,
+          class: "align-middle"
+        },
+        {
+          key: "subject",
+          label: "Materia",
+          sortable: false,
+          class: "align-middle"
+        },
+        {
+          key: "teacher",
+          label: "Professore",
+          sortable: false,
+          class: "align-middle"
+        },
+        {
+          key: "date",
+          label: "Data",
+          sortable: false,
+          class: "align-middle"
+        },
+        {
+          key: "status",
+          label: "Stato prenotazione",
+          sortable: false,
+          class: "align-middle text-center",
+          tdClass: "rowtable"
         },
         {
           key: "actions",
@@ -148,4 +188,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.status {
+  width: 140px;
+}
+.rowtable {
+  height: 70px;
+}
+</style>

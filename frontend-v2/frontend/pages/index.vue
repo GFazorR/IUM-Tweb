@@ -46,9 +46,7 @@
             <div v-for="sl of d.daySlots" :key="sl.date">
               <b-button
                 class="w-100 mb-1"
-                :disabled="
-                  !sl.isAvailable || $moment(sl.date).isBefore($moment.now())
-                "
+                :disabled="!sl.isAvailable"
                 :variant="available(sl)"
                 @click="setSlot(sl)"
               >
@@ -129,9 +127,7 @@ export default {
       "clearBooking"
     ]),
     available(s) {
-      return !s.isAvailable || this.$moment(s.date).isBefore(this.$moment.now())
-        ? "danger"
-        : "success";
+      return !s.isAvailable ? "danger" : "success";
     }
   }
 };

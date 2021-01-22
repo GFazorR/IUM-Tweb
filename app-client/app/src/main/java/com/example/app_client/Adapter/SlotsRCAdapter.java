@@ -62,7 +62,6 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // TODO: 21/01/2021 button disabled if avaiable false
         LocalDate date = LocalDate.parse(keys.get(position));
         ArrayList<Slot> daySlots = calendar.get(keys.get(position));
         holder.dayHeader.setText(TimeUtility.formatWeekday(date));
