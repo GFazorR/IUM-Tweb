@@ -35,6 +35,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return position == 0 ? "Area Utente" : "Prenota";
+        return position != 0 ? "Dashboard" : "Prenota";
     }
 }

@@ -1,16 +1,15 @@
 package com.example.app_client.View;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +17,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_client.Adapter.DaysRCAdapter;
-import com.example.app_client.Adapter.SlotRCAdapter;
 import com.example.app_client.Adapter.SlotsRCAdapter;
 import com.example.app_client.Adapter.TeacherRCAdapter;
 import com.example.app_client.Api.RetrofitClient;
@@ -28,9 +25,6 @@ import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Subject;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -94,7 +88,7 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
 
 
         progressDialog = getProgressDialog(this);
-        progressDialog.show();
+
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -130,19 +124,8 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
 
         bookSlotButton = findViewById(R.id.book_slot_button);
         bookSlotButton.setOnClickListener(v -> {
-            if (booking.getDate() != null && booking.getTeacherId() != 0){
-                RetrofitClient.getApi().bookSlot(subject.getId(), booking.getTeacherId(),
-                        booking.getDate().toString())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(b -> {
-                            progressDialog.show();
-                            System.out.println(b);
-                            progressDialog.dismiss();
-                            finish();
-                        },this::showResult);
-            }else
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+            if (booking.getDate() != null && booking.getTeacherId() != 0) bookSlot();
+            else Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
 
         });
 
@@ -177,9 +160,36 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
         }
     }
 
+    @SuppressLint("CheckResult")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void bookSlot(){
+        progressDialog.show();
+        RetrofitClient.getApi().bookSlot(subject.getId(), booking.getTeacherId(),
+                booking.getDate().toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(b -> {
+                    progressDialog.show();
+                    System.out.println(b);
+                    progressDialog.dismiss();
+                    finish();
+                },t -> {
 
+                    progressDialog.dismiss();
+                    errorDialog = getErrorDialog(this, t, v->{
+                        errorDialog.dismiss();
+                        bookSlot();
+                    });
+                    errorDialog.show();
+                });
+    }
+
+
+    @SuppressLint("CheckResult")
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void getSubjectCalendar(){
+        progressDialog.show();
+
         RetrofitClient.getApi().getSubjectSlots(subject.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -187,7 +197,15 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
                     calendar.putAll(map);
                     slotsRecyclerAdapter.dataSetChange();
                     progressDialog.dismiss();
-                }, this::showResult);
+                }, t -> {
+
+                    progressDialog.dismiss();
+                    errorDialog = getErrorDialog(this, t, v->{
+                        errorDialog.dismiss();
+                        getSubjectCalendar();
+                    });
+                    errorDialog.show();
+                });
     }
 
 

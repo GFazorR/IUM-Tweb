@@ -40,7 +40,6 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_dashboard,container,false);
-        // TODO: 24/11/2020 add progress dialog and error dialog
         this.bookings = new ArrayList<>();
         progressDialog = ((MainActivity) getActivity()).getProgressDialog(getContext());
 
@@ -84,9 +83,8 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
                     errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), t, v->{
                         errorDialog.dismiss();
                         getBookings();
-                        errorDialog.show();
                     });
-
+                    errorDialog.show();
                 });
     }
 
@@ -102,14 +100,26 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
                             dashBoardAdapter.setItemStatus(position ,30);
                             progressDialog.dismiss();
                         },
-                        this::showResult
+                        t -> {
+                            progressDialog.dismiss();
+                            if (t!=null){
+                                errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), t, v -> {
+                                    errorDialog.dismiss();
+                                    confirmBooking(bookingId, position);
+                                });
+                                errorDialog.show();
+                            }
+                        }
                 );
     }
 
     private void showResult(Throwable throwable){
         progressDialog.dismiss();
         if (throwable!=null){
-            errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), throwable, v -> errorDialog.dismiss());
+            errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), throwable, v -> {
+                errorDialog.dismiss();
+
+            });
             errorDialog.show();
         }
     }
@@ -127,7 +137,16 @@ public class DashBoardFragment extends Fragment implements DashboardRCAdapter.Cl
                         v-> {
                             dashBoardAdapter.setItemStatus(position,20);
                             progressDialog.dismiss();
-                        },this::showResult
+                        },t -> {
+                            progressDialog.dismiss();
+                            if (t!=null){
+                                errorDialog = ((MainActivity)getActivity()).getErrorDialog(getContext(), t, v -> {
+                                    errorDialog.dismiss();
+                                    cancelBooking(bookingId, position);
+                                });
+                                errorDialog.show();
+                            }
+                        }
                 );
     }
 
