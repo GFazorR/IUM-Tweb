@@ -31,6 +31,7 @@ import com.example.app_client.Utils.LoginManager;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,14 +49,11 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
     private Map<String, ArrayList<Slot>> calendar;
     private RecyclerView slotsRecycler;
     private SlotsRCAdapter slotsRecyclerAdapter;
-/*    private DaysRCAdapter daysRCAdapter;
-    private RecyclerView slotRecycler;
-    private SlotRCAdapter slotRCAdapter;*/
     private AlertDialog progressDialog;
     private AlertDialog errorDialog;
     private RecyclerView teacherRecycler;
     private TeacherRCAdapter teacherRCAdapter;
-    private Button bookSlotButton;
+    private MaterialButton bookSlotButton;
     static boolean isRunning = false;
 
     @Override
@@ -105,7 +103,7 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
         textView = findViewById(R.id.subject_click);
 
         setSubject();
-        textView.setText(subject.getName());
+        textView.setText(String.format("Seleziona lo slot per %s", subject.getName()));
 
         slotsRecycler = findViewById(R.id.recview_slots);
         slotsRecycler.setItemAnimator(new DefaultItemAnimator());

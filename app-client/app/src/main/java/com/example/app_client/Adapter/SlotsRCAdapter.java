@@ -84,7 +84,7 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
             if(!slot.isAvailable()){
 
                 button.setEnabled(false);
-                button.setBackgroundColor(Color.RED);
+//                button.setBackgroundColor(Color.RED);
             }
             button.setOnClickListener(view -> slotSelected.onSlotSelected(slot));
             holder.flexboxLayout.addView(button);

@@ -46,7 +46,7 @@ public class DaysRCAdapter extends RecyclerView.Adapter<DaysRCAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_day,parent,false);
+        View view = inflater.inflate(R.layout.item_teacher,parent,false);
         return new ViewHolder(view);
     }
 
@@ -83,7 +83,7 @@ public class DaysRCAdapter extends RecyclerView.Adapter<DaysRCAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            dayTextView = itemView.findViewById(R.id.text_day);
+            dayTextView = itemView.findViewById(R.id.teacher_button);
             dayTextView.setOnClickListener(this);
         }
 
