@@ -108,10 +108,12 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
         textView.setText(subject.getName());
 
         slotsRecycler = findViewById(R.id.recview_slots);
+        slotsRecycler.setItemAnimator(new DefaultItemAnimator());
         slotsRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         slotsRecyclerAdapter = new SlotsRCAdapter(calendar,this,this);
+        slotsRecyclerAdapter.setListener(this);
         slotsRecycler.setAdapter(slotsRecyclerAdapter);
-        slotsRecycler.setItemAnimator(new DefaultItemAnimator());
+
         getSubjectCalendar();
 
         /*slotsRecycler = findViewById(R.id.recview_slots);
@@ -122,7 +124,7 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
 
 
 
-       /* teacherRecycler = findViewById(R.id.teacher_recycler);
+        teacherRecycler = findViewById(R.id.teacher_recycler);
         teacherRCAdapter = new TeacherRCAdapter(new ArrayList<>(),this,this);
         teacherRCAdapter.setListener(this);
         teacherRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
@@ -139,18 +141,13 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
                             progressDialog.show();
                             System.out.println(b);
                             progressDialog.dismiss();
+                            finish();
                         },this::showResult);
             }else
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
 
-        });*/
+        });
 
-
-
-
-
-
-//        progressDialog.dismiss();
 
     }
 
@@ -204,34 +201,23 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
         finish();
     }
 
-    /*@RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void onDayClick(View view, int position) {
-        this.selectedSubject = daysRCAdapter.getItem(position);
-        slotRCAdapter.clear();
-        slotRCAdapter.setData(new ArrayList<>(calendar.get(selectedSubject)));
-    }
 
-    @Override
-    public void onSlotClick(View view, int position) {
-        booking.setDate(slotRCAdapter.getSelectedItem().getDate());
-        teacherRCAdapter.clear();
-        teacherRCAdapter.setData(new ArrayList<>(calendar.get(selectedSubject).get(position).getTeachers()));
-    }*/
 
     @Override
     public void onTeacherClick(View view, int position) {
         booking.setTeacher(teacherRCAdapter.getItem(position).getName());
         booking.setTeacherId(teacherRCAdapter.getItem(position).getId());
 
-        /*System.out.println(booking.getSubject());
+        System.out.println(booking.getSubject());
         System.out.println(booking.getDate());
         System.out.println(booking.getTeacher());
-        System.out.println(booking.getTeacherId());*/
+        System.out.println(booking.getTeacherId());
     }
 
     @Override
-    public void onSlotSelected(Slot s) {
-
+    public void onSlotSelected(Slot slot) {
+        booking.setDate(slot.getDate());
+        teacherRCAdapter.clear();
+        teacherRCAdapter.setData(new ArrayList<>(slot.getTeachers()));
     }
 }

@@ -2,6 +2,7 @@ package com.example.app_client.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.view.Display;
@@ -19,12 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_client.Model.Slot;
 import com.example.app_client.R;
 import com.example.app_client.Utils.TimeUtility;
+import com.google.android.flexbox.AlignContent;
+import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -64,7 +68,8 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
         holder.dayHeader.setText(TimeUtility.formatWeekday(date));
         holder.flexboxLayout.removeAllViews();
         holder.flexboxLayout.setFlexDirection(FlexDirection.COLUMN);
-        holder.flexboxLayout.setJustifyContent(JustifyContent.FLEX_END);
+        holder.flexboxLayout.setJustifyContent(JustifyContent.CENTER);
+        holder.flexboxLayout.setAlignContent(AlignContent.CENTER);
         for(Slot slot: daySlots){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -72,10 +77,17 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
             );
             params.setMargins(0,0,10,0);
             MaterialButton button = new MaterialButton(holder.flexboxLayout.getContext());
+            button.setMinimumWidth(0);
+            button.setPadding(0,0,10,0);
             button.setWidth(getScreenWidth());
             button.setLayoutParams(params);
             button.setText(TimeUtility.formatTimestamp(slot.getDate(),"HH:mm"));
-//            button.setOnClickListener(view -> ClickListener.onSlotSelected(slot));
+            if(!slot.isAvailable()){
+
+                button.setEnabled(false);
+                button.setBackgroundColor(Color.RED);
+            }
+            button.setOnClickListener(view -> slotSelected.onSlotSelected(slot));
             holder.flexboxLayout.addView(button);
         }
 
@@ -105,6 +117,10 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
             dayHeader = itemView.findViewById(R.id.day_header);
             flexboxLayout = itemView.findViewById(R.id.flexbox);
         }
+    }
+
+    public void setListener(ClickListener listener){
+        this.slotSelected = listener;
     }
 
     public interface ClickListener{
