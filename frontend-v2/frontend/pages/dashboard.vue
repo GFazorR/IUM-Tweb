@@ -12,6 +12,7 @@
     <b-container v-else fluid>
       <b-table
         responsive
+        hover
         :items="bookings"
         :fields="isAdmin ? fieldsAdmin : fields"
       >
@@ -98,7 +99,7 @@ export default {
         },
         {
           key: "actions",
-          label: "Azioni",
+          label: "",
           sortable: false,
           class: "align-middle"
         }
@@ -137,7 +138,7 @@ export default {
         },
         {
           key: "actions",
-          label: "Azioni",
+          label: "",
           sortable: false,
           class: "align-middle"
         }
@@ -194,5 +195,8 @@ export default {
 }
 .rowtable {
   height: 70px;
+}
+.align-middle {
+  font-weight: bold;
 }
 </style>

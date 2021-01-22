@@ -42,11 +42,11 @@
         </template>
         <template v-slot:cell(actions)="{ item }">
           <div>
-            <b-button size="md" variant="primary" @click="toggleDetails(item)"
-              >Manage</b-button
-            >
+            <b-button size="md" variant="primary" @click="toggleDetails(item)">
+              <b-icon icon="gear-fill" aria-hidden="true"></b-icon>
+            </b-button>
             <b-button size="md" variant="danger" @click="deleteSubject(item)">
-              Delete
+              <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
             </b-button>
           </div>
         </template>
@@ -111,7 +111,7 @@
                     variant="danger"
                     @click="deleteTeacher(teacher, item)"
                   >
-                    Elimina
+                    <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
                   </b-button>
                 </template>
               </b-table>
@@ -139,12 +139,14 @@ export default {
         {
           key: "name",
           label: "Materia",
-          sortable: false
+          sortable: false,
+          class: "align-middle"
         },
         {
           key: "actions",
+          label: "",
           sortable: false,
-          class: "text-center",
+          class: "text-center align-middle",
           style: "width=200px"
         }
       ],
@@ -152,12 +154,14 @@ export default {
         {
           key: "name",
           label: "Professore",
-          sortable: false
+          sortable: false,
+          class: "align-middle"
         },
         {
           key: "actions",
+          label: "",
           sortable: false,
-          class: "text-center",
+          class: "text-center align-middle",
           style: "width=200px"
         }
       ]

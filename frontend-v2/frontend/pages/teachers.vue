@@ -11,7 +11,7 @@
     <b-table hover :fields="fields" :items="teachers">
       <template v-slot:cell(actions)="teacher">
         <b-button variant="danger" @click="setTeacherDeleted(teacher.item)">
-          Elimina
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
         </b-button>
       </template>
     </b-table>
@@ -32,12 +32,14 @@ export default {
         {
           key: "name",
           label: "Professore",
-          sortable: false
+          sortable: false,
+          class: "align-middle"
         },
         {
           key: "actions",
+          label: "",
           sortable: false,
-          class: "text-center",
+          class: "text-center align-middle",
           style: "width=200px"
         }
       ]
