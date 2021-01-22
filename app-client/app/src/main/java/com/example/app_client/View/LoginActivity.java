@@ -12,13 +12,14 @@ import androidx.appcompat.app.AlertDialog;
 import com.example.app_client.Api.RetrofitClient;
 import com.example.app_client.R;
 import com.example.app_client.Utils.LoginManager;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
-    private Button btnLogin;
+    private MaterialButton btnLogin;
     private TextInputEditText inputUsername;
     private TextInputEditText inputPassword;
 

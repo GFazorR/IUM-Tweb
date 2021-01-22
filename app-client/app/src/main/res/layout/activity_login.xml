@@ -41,21 +41,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/loginBtn"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:background="#3F51B5"
             android:text="@string/log_in"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            app:backgroundTint="@color/colorAccent" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/guestBtn"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_in_as_guest" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/log_in_as_guest"
+            android:textColor="@color/colorPrimaryDark" />
 
     </LinearLayout>
 </RelativeLayout>

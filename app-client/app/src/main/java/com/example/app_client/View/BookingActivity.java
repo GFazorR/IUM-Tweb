@@ -171,8 +171,7 @@ public class BookingActivity extends BaseActivity implements SlotsRCAdapter.Clic
                     toast.show();
                 }
             }else {
-                Toast toast = Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
+                showErrorMessage(throwable);
             }
 
         }

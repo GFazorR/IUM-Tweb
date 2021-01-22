@@ -26,6 +26,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
         this.keys = new ArrayList<>(calendar.keySet());
         this.inflater = LayoutInflater.from(context);
         this.activity = activity;
+
     }
 
     public void dataSetChange(){
@@ -69,13 +71,17 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
         holder.flexboxLayout.setFlexDirection(FlexDirection.COLUMN);
         holder.flexboxLayout.setJustifyContent(JustifyContent.CENTER);
         holder.flexboxLayout.setAlignContent(AlignContent.CENTER);
+
         for(Slot slot: daySlots){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(0,0,10,0);
-            MaterialButton button = new MaterialButton(holder.flexboxLayout.getContext());
+            MaterialButton button = new MaterialButton(holder.flexboxLayout.getContext(),
+                    null,
+                    R.attr.materialButtonOutlinedStyle);
+
             button.setMinimumWidth(0);
             button.setPadding(0,0,10,0);
             button.setWidth(getScreenWidth());
@@ -84,11 +90,16 @@ public class SlotsRCAdapter extends RecyclerView.Adapter<SlotsRCAdapter.ViewHold
             if(!slot.isAvailable()){
 
                 button.setEnabled(false);
-//                button.setBackgroundColor(Color.RED);
+//                button.setBackgroundColor(Color.parseColor("#B00020"));
+                button.setTextColor(Color.parseColor("#B00020"));
+            }else {
+                button.setTextColor(Color.parseColor("#004ba0"));
             }
             button.setOnClickListener(view -> slotSelected.onSlotSelected(slot));
             holder.flexboxLayout.addView(button);
+
         }
+
 
 
     }

@@ -17,7 +17,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="190dp"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <TextView
@@ -56,13 +56,12 @@
                 android:gravity="center"
                 android:text="@string/textview" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmButton"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/status"
-                android:background="#4CAF50"
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"

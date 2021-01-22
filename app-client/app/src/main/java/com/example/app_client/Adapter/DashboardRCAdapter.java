@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_client.Model.Booking;
 import com.example.app_client.R;
 import com.example.app_client.Utils.TimeUtility;
+import com.google.android.material.button.MaterialButton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 defaultViewHolder.status.setText(booking.getStatusTitle());
                 defaultViewHolder.status.setTextColor(Color.GRAY);
                 defaultViewHolder.button.setText("Elimina");
-                defaultViewHolder.button.setBackgroundColor(Color.RED);
+                defaultViewHolder.button.setBackgroundColor(Color.parseColor("#B00020"));
                 break;
             case 2:
                 ConfirmViewHolder confirm = (ConfirmViewHolder)holder;
@@ -84,18 +85,19 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         "EEE dd/MM/YY HH:mm"));
                 confirm.status.setText(booking.getStatusTitle());
                 confirm.status.setTextColor(Color.GRAY);
+                confirm.button.setBackgroundColor(Color.parseColor("#00c87a"));
                 break;
             case 3:
-                TestViewHolder testViewHolder = (TestViewHolder)holder;
-                testViewHolder.subjectName.setText(booking.getSubject());
-                testViewHolder.teacherName.setText(booking.getTeacher());
-                testViewHolder.timeSlot.setText(TimeUtility.formatTimestamp(booking.getDate(),
+                TestViewHolder noButtonVH = (TestViewHolder)holder;
+                noButtonVH.subjectName.setText(booking.getSubject());
+                noButtonVH.teacherName.setText(booking.getTeacher());
+                noButtonVH.timeSlot.setText(TimeUtility.formatTimestamp(booking.getDate(),
                         "EEE dd/MM/YY HH:mm"));
-                testViewHolder.status.setText(booking.getStatusTitle());
+                noButtonVH.status.setText(booking.getStatusTitle());
                 if (booking.getStatus() == 20)
-                    testViewHolder.status.setTextColor(Color.RED);
-                else testViewHolder.status.setTextColor(Color.parseColor("#2ca81c"));
-                testViewHolder.button.setVisibility(View.GONE);
+                    noButtonVH.status.setTextColor(Color.parseColor("#B00020"));
+                else noButtonVH.status.setTextColor(Color.parseColor("#00c87a"));
+                noButtonVH.button.setVisibility(View.GONE);
                 break;
         }
     }
@@ -123,7 +125,7 @@ public class DashboardRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private TextView teacherName;
         private TextView timeSlot;
         private TextView status;
-        private Button button;
+        private MaterialButton button;
 
 
 
