@@ -11,60 +11,6 @@ class Database:
         self.conn = connect(database="tweb", user="tweb", password="tweb", host="127.0.0.1", port="5432")
         print("Database opened successfully")
 
-    # Teacher Queries
-    def getTeachers(self):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM docente order by id ASC")
-        rows = cur.fetchall()
-        self.conn.close()
-        return rows
-
-    # Subjects Queries
-    def getSubjects(self):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM corso order by id ASC")
-        rows = cur.fetchall()
-        self.conn.close()
-        return rows
-
-    def addSubject(self, name, deleted):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("INSERT INTO corso (titolo, deleted) VALUES (%s, %s) RETURNING id", (name, deleted))
-        res = cur.fetchone()
-        self.conn.commit()
-        self.conn.close()
-        row = self.getSubject(res[0])
-        return row
-
-    def getSubject(self, subjectId):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM corso WHERE id = %s", (subjectId,))
-        res = cur.fetchone()
-        self.conn.close()
-        return res
-
-    def deleteSubject(self, subjectId):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("DELETE FROM corso WHERE id = %s", (subjectId,))
-        self.conn.commit()
-        self.conn.close()
-
-    def updateSubject(self, subjectId, name, deleted):
-        self.connect()
-        cur = self.conn.cursor()
-        cur.execute("Update corso SET titolo = %s, deleted = %s WHERE id = %s", (name, deleted, subjectId))
-        self.conn.commit()
-        self.conn.close()
-        row = self.getSubject(subjectId)
-        print(row)
-        return row
-
-    # Generic queries
     # Get Col names in table
     def getColNames(self, table_name):
         self.connect()
@@ -136,6 +82,7 @@ class Database:
 
     def place_holder(self, values):
         return '{}'.format(', '.join('%s' for i in values))
+
 
 
 # db = Database()
