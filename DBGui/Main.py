@@ -1,9 +1,11 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import font as tk
 from Database import *
 
 db = Database()
 root = Tk()
+root.geometry("500x500")
 
 # Subjects tab
 # TreeView Frame
@@ -13,13 +15,20 @@ tree_frame = Frame(root)
 field_frame = Frame(root)
 button_frame = Frame(root)
 
+# list containing entries
 global entry_list
 entry_list = []
 
+# list containing cols sizes
+global col_sizes
+col_sizes = []
 
+
+# dynamically creates entries
 def createFields(table_name):
     global entry_list
     cols = db.getColNames(table_name)
+
     length = len(cols)
     for x in range(length - 1):
         entry = Entry(field_frame)
@@ -27,14 +36,15 @@ def createFields(table_name):
         entry_list.append(entry)
 
 
+
 def createTreeView(table_name):
     tree = ttk.Treeview(tree_frame)
     cols = db.getColNames(table_name)
     tree.heading("#0", text="Label", anchor=W)
     tree["columns"] = tuple(cols)
-    tree.column("#0", width=0, stretch=NO)
+    tree.column("#0", width=0, stretch=False)
     for item in cols:
-        tree.column(item, anchor=W, width=80)
+        tree.column(item, anchor=W, minwidth=80, stretch=True)
         tree.heading(item, text=item, anchor=W)
 
     global count
@@ -54,7 +64,7 @@ def createTreeView(table_name):
 
     tree.bind('<<TreeviewSelect>>', select)
 
-    tree.pack()
+    tree.pack(fill='x')
     return tree
 
 
