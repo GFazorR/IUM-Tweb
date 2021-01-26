@@ -11,7 +11,9 @@ global buttons, \
     game_frame, \
     score_board_frame, \
     scoreboard, \
-    scoreboard_labels
+    scoreboard_labels,\
+    game_started
+game_started = False
 buttons = []
 turn = 0
 players = []
@@ -20,70 +22,80 @@ scoreboard_labels = []
 
 
 def resetGame():
-    global buttons, players, turn, label_player_list, scoreboard_labels
+    global buttons,\
+        players,\
+        turn,\
+        label_player_list,\
+        scoreboard_labels,\
+        game_started
     for item in buttons:
-        item.configure(text="")
+        item.configure(text="", state=DISABLED)
     score_board_frame.destroy()
     scoreboard.clear()
     scoreboard_labels.clear()
-    buttons.clear()
-    print(buttons)
     players.clear()
     turn = 0
     label_player_list.configure(text="")
+    game_started = False
 
 
 def continueGame():
     global turn, buttons, scoreboard, scoreboard_labels
     turn = 0
     buttons.clear()
+    score_board_frame.destroy()
     scoreboard_labels.clear()
     createGame(game_frame)
 
 
 def setGridSize(entry_size):
-    global label_size
-    setSize(int(entry_size.get()))
-    label_size.configure(text=entry_size.get())
-    entry_size.delete(0, END)
+    global label_size,game_started
+    if not game_started:
+        setSize(int(entry_size.get()))
+        label_size.configure(text=entry_size.get())
+        entry_size.delete(0, END)
 
 
 def addPlayer(entry_player):
-    global players, label_player_list
-    players.append(entry_player.get())
-    label_player_list.configure(text=players)
-    entry_player.delete(0, END)
+    global players, label_player_list,game_started
+    if not game_started:
+        players.append(entry_player.get())
+        label_player_list.configure(text=players)
+        entry_player.delete(0, END)
 
 
 def click(button):
-    global turn, players, scoreboard
-    player_symbol = players[turn % len(players)]
-    if button["text"] == '':
-        button["text"] = player_symbol
-        info = button.grid_info()
-        addItem(player_symbol, info["row"], info["column"])
-        score = calcScore(player_symbol, filetto_grid)
-        scoreboard[turn % len(scoreboard)] += score
-        scoreboard_labels[turn % len(scoreboard_labels)] \
-            .configure(text=player_symbol + " Score: " + str(score))
-        if score >= 50:
-            response = messagebox.askyesno("Player " + player_symbol + " Wins",
-                                           "Reset game?")
-            if response == 1:
-                continueGame()
-            else:
-                resetGame()
+    global turn, players, scoreboard, game_started
+    if game_started:
+        player_symbol = players[turn % len(players)]
+        if button["text"] == '':
+            button["text"] = player_symbol
+            info = button.grid_info()
+            addItem(player_symbol, info["row"], info["column"])
+            score = calcScore(player_symbol, filetto_grid)
+            scoreboard[turn % len(scoreboard)] += score
+            scoreboard_labels[turn % len(scoreboard_labels)] \
+                .configure(text=player_symbol + " Score: " + str(score), bg="gray")
+            scoreboard_labels[(turn+1) % len(scoreboard_labels)] \
+                .configure(bg="green")
+            if score >= 50:
+                response = messagebox.askyesno("Player " + player_symbol + " Wins",
+                                               "Reset game?")
+                if response == 1:
+                    continueGame()
+                else:
+                    resetGame()
 
-        elif gameEnd(filetto_grid):
-            response = messagebox.askyesno("Draw",
-                                           "Reset game?")
-            if response == 1:
-                continueGame()
-            else:
-                resetGame()
+            elif gameEnd(filetto_grid):
+                response = messagebox.askyesno("Draw",
+                                               "Reset game?")
+                if response == 1:
+                    continueGame()
+                else:
+                    resetGame()
 
-        else:
-            turn += 1
+            else:
+                turn += 1
 
 
 def createGame(game_frame):
@@ -92,9 +104,13 @@ def createGame(game_frame):
         messagebox.showerror("Error, no players in game.", "Add players to start the game")
     else:
         if buttons:
+            for item in buttons:
+                item.destroy()
             buttons.clear()
-            turn = 0
             print(buttons)
+            turn = 0
+        if game_frame is None:
+            game_frame = Frame(root)
         count = 0
         createGrid()
         for col in range(getSize()):
@@ -113,10 +129,11 @@ def createGame(game_frame):
 
 
 def createScoreboard():
-    global players, scoreboard, scoreboard_labels, score_board_frame
+    global players, scoreboard, scoreboard_labels, score_board_frame,game_started
     if score_board_frame is not None:
         score_board_frame = Frame(root)
     scoreboard = []
+    # scoreboard_labels.clear()
     count = 0
     for player in players:
         scoreboard.append(0)
@@ -124,8 +141,9 @@ def createScoreboard():
         scoreboard_labels.append(label)
         label.grid(row=0, column=count)
         count += 1
-    print(scoreboard_labels)
+    scoreboard_labels[0].configure(bg="green")
     score_board_frame.pack()
+    game_started = True
 
 
 def gameConfig(root):
@@ -133,7 +151,7 @@ def gameConfig(root):
     game_frame = Frame(root)
     game_config = Frame(root)
     score_board_frame = Frame(root)
-    # todo input check,
+    # todo input check, disable buttons
     # set gameconfig frame
     # add player entry & button
     entry_player = Entry(game_config)
