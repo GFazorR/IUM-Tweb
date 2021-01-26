@@ -19,9 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21202ad9-a4a6-464a-8c05-ef5fec9a4851" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="21202ad9-a4a6-464a-8c05-ef5fec9a4851" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -158,10 +156,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.Main" />
-      <item itemvalue="Python.Filetto" />
       <item itemvalue="Python.Database" />
       <item itemvalue="Python.FilettoGUI" />
+      <item itemvalue="Python.Filetto" />
+      <item itemvalue="Python.Main" />
       <item itemvalue="Python.Test" />
     </list>
     <recent_temporary>
