@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @WebServlet(name = "Slot", urlPatterns = "/api/Slot")
@@ -30,16 +28,13 @@ public class SlotServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         try {
-            Instant start = Instant.now();
+
             Gson localDateTimeSerializer = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
                     (JsonSerializer<LocalDateTime>) (localDateTime, type, jsonSerializationContext)
                             -> new JsonPrimitive(localDateTime.toString())).create();
             String gson = localDateTimeSerializer.toJson(Slot.Dao.weeklySubjectCalendar(subjectId));
             out.write(gson);
             out.flush();
-            Instant end = Instant.now();
-            System.out.print("doGet: duration: ");
-            System.out.println(Duration.between(start,end));
         } catch (SQLException | NamingException throwables) {
             throwables.printStackTrace();
         }

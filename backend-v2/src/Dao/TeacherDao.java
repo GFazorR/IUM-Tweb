@@ -92,7 +92,6 @@ public class TeacherDao {
                     return getTeacher(set.getInt("id"));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             if(e.getMessage().contains("ERROR: duplicate key value violates unique constraint")){
                 throw new HttpException(HttpServletResponse.SC_CONFLICT, "Professore gia' inserito");
             }

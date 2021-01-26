@@ -7,8 +7,6 @@ import Model.Flags;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -18,42 +16,7 @@ import static Time.TimeUtility.getLastDayOfWeek;
 public class BookingDao {
 
 
-
-    public static ArrayList<Booking> getTeacherBookedSlots(int teacherId) throws SQLException, NamingException {
-        PreparedStatement statement = null;
-        ResultSet set = null;
-        ArrayList<Booking> bookings = new ArrayList<>();
-        try (Connection conn = DbManager.getConnection()){
-            statement = conn.prepareStatement(
-                    "select pr.id, cs.titolo, u.account, d.nome, d.cognome, pr.datetime, pr.stato " +
-                        "from ((prenotazione as pr  " +
-                        "join corso as cs on pr.corso = cs.id) " +
-                        "join docente as d on pr.docente = d.id) " +
-                        "join utente as u on pr.utente = u.id " +
-                        "where docente = ? " +
-                        "order by pr.id desc ");
-            statement.setInt(1,teacherId);
-            set = statement.executeQuery();
-            while (set.next()){
-                bookings.add(new Booking(set.getInt("id"),
-                        set.getString("titolo"),
-                        set.getString("nome") + ""+ set.getString("cognome"),
-                        set.getString("account"),
-                        set.getInt("stato"),
-                        set.getTimestamp("date")));
-            }
-            return bookings;
-        }finally {
-            DbManager.close(statement,set);
-        }
-        // throw httpexception?
-    }
-
-
-
-    // TODO: 14/11/2020 metodo che crea gli slot
     public static ArrayList<Booking> getWeeklyBookings() throws SQLException, NamingException {
-        Instant start = Instant.now();
         ArrayList<Booking> bookings = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet set = null;
@@ -79,9 +42,6 @@ public class BookingDao {
             return bookings;
         }finally {
             DbManager.close(statement,set);
-            Instant end = Instant.now();
-            System.out.print("getWeeklyBooking: duration : ");
-            System.out.println(Duration.between(start,end));
         }
 
     }

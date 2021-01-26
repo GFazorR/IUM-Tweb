@@ -6,7 +6,11 @@
         Non ci sono prenotazioni
       </h2>
       <h4 class="text-center">
-        Torna alla Home per prenotare
+        Torna alla
+        <b-button variant="success" @click="$router.push('/')">
+          Home
+        </b-button>
+        per prenotare
       </h4>
     </div>
     <b-container v-else fluid>

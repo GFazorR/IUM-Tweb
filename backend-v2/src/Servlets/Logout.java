@@ -29,7 +29,6 @@ public class Logout extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = req.getParameter("token");
-        System.out.println();
         try {
             User user = Auth.authUser(token);
             UserDao.removeUserToken(user.getToken());

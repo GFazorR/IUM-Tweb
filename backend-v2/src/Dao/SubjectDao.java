@@ -7,17 +7,17 @@ import Model.Teacher;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 
 public class SubjectDao {
 
     //    gets all courses from database
+
     public static ArrayList<Subject> getAllSubjects() throws SQLException, NamingException {
         PreparedStatement statement = null;
         ResultSet set = null;
         ArrayList<Subject> cours = new ArrayList<Subject>();
+
 //        DbManager.registerDriver();
         try (Connection conn = DbManager.getConnection()) {
             statement = conn.prepareStatement("select corso.id, corso.titolo " +
@@ -37,7 +37,7 @@ public class SubjectDao {
     }//    Inserts subject in database
 
     public static Subject getSubject(int subjectId) throws SQLException, NamingException {
-        Instant start = Instant.now();
+
         PreparedStatement statement = null;
         ResultSet set = null;
         try (Connection conn = DbManager.getConnection()) {
@@ -54,9 +54,6 @@ public class SubjectDao {
 
         } finally {
             DbManager.close(statement, set);
-            Instant end = Instant.now();
-            System.out.print("getSubject: duration : ");
-            System.out.println(Duration.between(start,end));
         }
         throw new HttpException(HttpServletResponse.SC_NOT_FOUND, "Corso non trovato");
     }//    Inserts Course into Database

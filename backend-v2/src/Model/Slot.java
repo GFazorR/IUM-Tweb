@@ -4,8 +4,6 @@ import Dao.SubjectDao;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,7 +36,6 @@ public class Slot {
     public static class Dao{
 
         private static Map<LocalDate, ArrayList<Slot>> createNewWeeklyCalendar(int subjectId) throws SQLException, NamingException {
-            Instant start = Instant.now();
             Subject subject = SubjectDao.getSubject(subjectId);
             Map<LocalDate, ArrayList<Slot>> newCalendar = new TreeMap<>();
             for (int i = 0; i<5; i++){
@@ -51,10 +48,6 @@ public class Slot {
                 }
                 newCalendar.put(getFirstDayOfWeek().plusDays(i).toLocalDate(),slots);
             }
-            Instant end = Instant.now();
-            System.out.print("createNewWeeklyCalendar: duration : ");
-            System.out.println(Duration.between(start,end));
-
             return newCalendar;
         }
 
@@ -63,7 +56,6 @@ public class Slot {
             ArrayList<Booking> bookings = getWeeklyBookings();
 
             Map<LocalDate,ArrayList<Slot>> weeklyCalendar = createNewWeeklyCalendar(subjectId);
-            Instant start = Instant.now();
             for (Map.Entry<LocalDate,ArrayList<Slot>> entry : weeklyCalendar.entrySet()){
                 for (Slot slot: entry.getValue()) {
                     for (Booking booking: bookings){
@@ -75,9 +67,6 @@ public class Slot {
                     }
                 }
             }
-            Instant end = Instant.now();
-            System.out.print("weeklyCalendar: duration : ");
-            System.out.println(Duration.between(start,end));
             return weeklyCalendar;
         }
     }

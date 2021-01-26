@@ -22,7 +22,7 @@
               to="/subjects"
               exact
               exact-active-class="active"
-              >Corsi</b-nav-item
+              >Materie</b-nav-item
             >
             <b-nav-item
               v-if="isAdmin"

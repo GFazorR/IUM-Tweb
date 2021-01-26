@@ -1,6 +1,5 @@
 <template>
   <b-container class="text-center mt-5 pt-5">
-    <!-- <img src="error.svg" class="my-4" height="200" /> -->
     <h1>Error</h1>
     <h2 class="text-danger my-2" variant="danger">
       <b>{{ message }}</b>
@@ -13,7 +12,6 @@
 <script>
 export default {
   props: ["error"],
-  //layout: 'blog' // you can set a custom layout for the error page
 
   computed: {
     status() {

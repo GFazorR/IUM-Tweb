@@ -136,7 +136,6 @@ public class UserDao {
                 if(e.getMessage()
                         .contains("ERROR: duplicate key value violates unique constraint"))
                     throw new HttpException(HttpServletResponse.SC_CONFLICT, "Token gia' esistente");
-                System.out.println(e.getMessage());
             }
             finally {
                 DbManager.close(statement,null);
