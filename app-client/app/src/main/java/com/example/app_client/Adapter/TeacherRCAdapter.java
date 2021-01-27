@@ -8,14 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app_client.Model.Slot;
 import com.example.app_client.Model.Teacher;
 import com.example.app_client.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -49,7 +48,7 @@ public class TeacherRCAdapter extends RecyclerView.Adapter<TeacherRCAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_day, parent, false);
+        View view = inflater.inflate(R.layout.item_teacher, parent, false);
         return new ViewHolder(view);
     }
 
@@ -64,11 +63,10 @@ public class TeacherRCAdapter extends RecyclerView.Adapter<TeacherRCAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.teacherView.setVisibility(View.GONE);
-        holder.teacherView.setText(teachers.get(position).getName());
-        holder.teacherView.getLayoutParams().width = getScreenWidth();
-        holder.teacherView.setVisibility(View.VISIBLE);
-        holder.teacherView.setSelected(position == selectedItem);
+        holder.materialButton.setVisibility(View.GONE);
+        holder.materialButton.setText(teachers.get(position).getName());
+        holder.materialButton.setVisibility(View.VISIBLE);
+        holder.materialButton.setSelected(position == selectedItem);
     }
 
     @Override
@@ -78,11 +76,12 @@ public class TeacherRCAdapter extends RecyclerView.Adapter<TeacherRCAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView teacherView;
+        MaterialButton materialButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            teacherView = itemView.findViewById(R.id.text_day);
-            teacherView.setOnClickListener(this);
+            materialButton = itemView.findViewById(R.id.teacher_button);
+            materialButton.setOnClickListener(this);
         }
 
         @Override

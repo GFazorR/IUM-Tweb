@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.app_client.Adapter.SubjectPagerAdapter;
+import com.example.app_client.Adapter.PagerAdapter;
 import com.example.app_client.Api.RetrofitClient;
 import com.example.app_client.Model.User;
 import com.example.app_client.R;
@@ -33,12 +33,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*Toolbar toolbar = findViewById(R.id.toolbar);*/
+        /*setSupportActionBar(toolbar);*/
 
         pager = findViewById(R.id.pager);
         pager.setOffscreenPageLimit(0);
-        pager.setAdapter(new SubjectPagerAdapter(getSupportFragmentManager(),
+        pager.setAdapter(new PagerAdapter(getSupportFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
 
     }
