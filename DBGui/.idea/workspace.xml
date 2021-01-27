@@ -19,7 +19,157 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21202ad9-a4a6-464a-8c05-ef5fec9a4851" name="Default Changelist" comment="" />
+    <list default="true" id="21202ad9-a4a6-464a-8c05-ef5fec9a4851" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Filetto.py" beforeDir="false" afterPath="$PROJECT_DIR$/Filetto.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FilettoGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/FilettoGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/artifacts/backend_v2_Web_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/libraries/gson_2_8_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/libraries/io_jsonwebtoken_jjwt_api_0_10_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/libraries/io_jsonwebtoken_jjwt_impl_0_10_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/libraries/io_jsonwebtoken_jjwt_jackson_0_10_7.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/libraries/jackson_jackson_asl_0_9_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/back-end.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/apiguardian-api-1.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jackson-annotations-2.9.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jackson-asl-0.9.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jackson-core-2.9.9.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jackson-databind-2.9.9.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/javax.annotation-api-1.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jjwt-api-0.10.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jjwt-impl-0.10.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/jjwt-jackson-0.10.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-jupiter-5.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-jupiter-api-5.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-jupiter-engine-5.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-jupiter-params-5.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-platform-commons-1.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/junit-platform-engine-1.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/lib/opentest4j-1.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Auth/Auth.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Auth/Token.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/BookingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/DbManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/SubjectDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/TeacherDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/TeachingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Exceptions/HttpException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Filter/FilterImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Booking.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/ErrorMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Flags.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Slot$Dao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Slot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Subject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/Teacher.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/BookingServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/Error.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/Login.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/Logout.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/SlotServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/SubjectServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/TeacherServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Servlets/TeachingServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/out/production/backend-v2/Time/TimeUtility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Auth/Auth.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Auth/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/BookingDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/DbManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/SubjectDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/TeacherDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/TeachingDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Dao/UserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Exceptions/HttpException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Filter/FilterImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/Booking.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/ErrorMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/Flags.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/Slot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/Subject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/Teacher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Model/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/BookingServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/Error.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/Login.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/Logout.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/SlotServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/SubjectServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/TeacherServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Servlets/TeachingServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/src/Time/TimeUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/web/WEB-INF/sun-jaxws.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend-v2/web/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/frontend-v2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/assets/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/components/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/components/teacher-form.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/layouts/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/layouts/default.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/layouts/error.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/layouts/logged.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/middleware/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/middleware/admin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/middleware/logged.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/nuxt.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/dashboard.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/login.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/subjects.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/pages/teachers.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/plugins/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/plugins/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/plugins/vuex-persist.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/static/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/static/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/store/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/frontend/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/changelog.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/dist/cjs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/dist/umd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/license.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/deepmerge/rollup.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/.github/FUNDING.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/SPECS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/cjs/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/cjs/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/es.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/esm/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/flatted.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/php/flatted.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/php/test.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/node_modules/flatted/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-v2/package-lock.json" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,27 +200,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Python.FilettoGUI">
-    <configuration name="Database" type="PythonConfigurationType" factoryName="Python">
-      <module name="DBGui" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\DrunkFazor\Documents\GitHub\IUM-Tweb\DBGui\venv\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Database.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="Filetto" type="PythonConfigurationType" factoryName="Python">
       <module name="DBGui" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,38 +263,14 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="DBGui" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.Database" />
-      <item itemvalue="Python.FilettoGUI" />
-      <item itemvalue="Python.Filetto" />
       <item itemvalue="Python.Main" />
-      <item itemvalue="Python.Test" />
+      <item itemvalue="Python.Filetto" />
+      <item itemvalue="Python.FilettoGUI" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.FilettoGUI" />
-        <item itemvalue="Python.Test" />
       </list>
     </recent_temporary>
   </component>
@@ -195,30 +300,34 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611584740746">
+    <state x="759" y="229" key="#Python" timestamp="1611700947033">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611584740746" />
+    <state x="759" y="229" key="#Python/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611700947033" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611704396295">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611704396295" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1611584739949">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611584739949" />
-    <state width="1899" height="277" key="GridCell.Tab.0.bottom" timestamp="1611672500108">
+    <state width="1899" height="255" key="GridCell.Tab.0.bottom" timestamp="1611707281156">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="277" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611672500108" />
-    <state width="1899" height="277" key="GridCell.Tab.0.center" timestamp="1611672500108">
+    <state width="1899" height="255" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611707281156" />
+    <state width="1899" height="255" key="GridCell.Tab.0.center" timestamp="1611707281156">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="277" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611672500108" />
-    <state width="1899" height="277" key="GridCell.Tab.0.left" timestamp="1611672500108">
+    <state width="1899" height="255" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611707281156" />
+    <state width="1899" height="255" key="GridCell.Tab.0.left" timestamp="1611707281156">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="277" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611672500108" />
-    <state width="1899" height="277" key="GridCell.Tab.0.right" timestamp="1611672500108">
+    <state width="1899" height="255" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611707281156" />
+    <state width="1899" height="255" key="GridCell.Tab.0.right" timestamp="1611707281156">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="277" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611672500108" />
+    <state width="1899" height="255" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611707281156" />
     <state width="938" height="351" key="GridCell.Tab.1.bottom" timestamp="1611623781818">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -239,6 +348,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1609761280548" />
+    <state x="667" y="253" width="585" height="534" key="find.popup" timestamp="1611703237005">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1611703237005" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1609760738618">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
